@@ -1,0 +1,36 @@
+:root {
+  --background-color-hsl: 0 0% 2%;
+
+  --background-color: hsl(0 0% 2%);
+  --text-color: hsl(0 14% 95%);
+
+  --primary-font: "Bebas Neue", sans-serif;
+  --secondary-font: "Roboto Flex", sans-serif;
+  --app-padding: 24px;
+
+  color-scheme: dark;
+  scrollbar-color: hsl(0 14% 95%) hsl(0 0% 2%);
+  scrollbar-width: thin;
+  scrollbar-gutter: stable;
+}
+
+body {
+  font-family: var(--secondary-font);
+  color: var(--text-color);
+  background-color: var(--background-color);
+}
+
+::selection {
+  background-color: var(--text-color);
+  color: var(--background-color);
+}
+
+:focus-visible {
+  outline: 2px solid hsl(210, 98%, 59%);
+  outline-offset: 2px;
+}
+
+[data-scroll-locked] {
+  overflow: hidden;
+  overscroll-behavior: contain;
+}

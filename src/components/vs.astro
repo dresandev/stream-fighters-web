@@ -1,0 +1,30 @@
+---
+interface Props {
+  class?: string
+}
+
+const { class: className, ...props } = Astro.props
+---
+
+<div class:list={["wrapper", className]} {...props}>VS</div>
+
+<style>
+  .wrapper {
+    position: relative;
+    inline-size: fit-content;
+    padding: 0.07em 0.32em;
+    font-size: 28px;
+    font-family: var(--primary-font);
+    line-height: normal;
+    user-select: none;
+  }
+
+  .wrapper::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    background-image: linear-gradient(to right, #e80308, #a40000);
+    transform: rotate(-10deg) translateY(-2px);
+  }
+</style>

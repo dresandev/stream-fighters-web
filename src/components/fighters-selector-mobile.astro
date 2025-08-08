@@ -1,0 +1,70 @@
+---
+import Carousel from "@/components/carousel.astro"
+import FighterSelectorCard from "@/components/fighter-selector-card.astro"
+import Slide from "@/components/slide.astro"
+import Vs from "@/components/vs.astro"
+---
+
+<div class="container">
+  <Carousel class="wrapper">
+    <Slide class="slide">
+      <FighterSelectorCard class="item" initAnimation={false} />
+      <Vs class="vs" />
+      <FighterSelectorCard class="item" initAnimation={false} />
+    </Slide>
+    <Slide class="slide">
+      <FighterSelectorCard class="item" initAnimation={false} />
+      <Vs class="vs" />
+      <FighterSelectorCard class="item" initAnimation={false} />
+    </Slide>
+    <Slide class="slide">
+      <FighterSelectorCard class="item" initAnimation={false} />
+      <Vs class="vs" />
+      <FighterSelectorCard class="item" initAnimation={false} />
+    </Slide>
+  </Carousel>
+</div>
+
+<style>
+  .container {
+    margin-inline: calc(var(--app-padding) * -1);
+    overflow-x: hidden;
+  }
+
+  .wrapper {
+    margin-inline: auto;
+    opacity: 0;
+    animation: fade-in 250ms forwards 250ms;
+  }
+
+  .slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 16px;
+  }
+
+  .item {
+    inline-size: 120px;
+  }
+
+  .vs {
+    position: absolute;
+    inset-block: 0;
+    z-index: 1;
+    block-size: max-content;
+    margin-block: auto;
+  }
+
+  @media screen and (min-width: 768px) {
+    .container {
+      display: none;
+    }
+  }
+
+  @keyframes fade-in {
+    to {
+      opacity: 1;
+    }
+  }
+</style>

@@ -1,0 +1,179 @@
+---
+interface Props {
+  class?: string
+  initAnimation?: boolean
+}
+
+const { class: className, initAnimation = true, ...props } = Astro.props
+---
+
+<a
+  data-id="fighter-card"
+  data-init-animation={initAnimation ? "1" : "0"}
+  aria-label="Ver perfil del peleador"
+  class:list={["card", { "slide-fade-in": initAnimation }, className]}
+  href="#"
+  {...props}
+>
+  <div data-id="fighter-card-content" class="content">
+    <img
+      class="fighter-image"
+      src="/images/fighter/thumbnail/milica.png"
+      alt="Imagen miniatura de Milica"
+      width="100"
+      height="133"
+    />
+  </div>
+</a>
+
+<script>
+  import { $$ } from "@/utils/dom-selector"
+  import { getUniqueRandomNumber } from "@/utils/get-unique-random-number"
+  import { getRandomNumber } from "@/utils/get-random-number"
+  import { doodles, doodlePositions } from "@/data/doodles"
+
+  const $cards = $$("a[data-id='fighter-card']")
+  const NS = "http://www.w3.org/2000/svg"
+  const doodlesAmount = 4
+
+  $cards.forEach(($card, i) => {
+    let currentDoodles: SVGElement[] = []
+    const initAnimationString = $card.getAttribute("data-init-animation")
+    const $cardContent = $card.querySelector("div[data-id='fighter-card-content']")!
+
+    const initAnimationBoolean = Boolean(Number(initAnimationString))
+
+    if (initAnimationBoolean) {
+      $card.style.animationDelay = `${i * 0.05}s`
+    }
+
+    const addDoodles = () => {
+      cleanupDoodles()
+
+      const getRandomDoodleIndex = getUniqueRandomNumber(0, doodles.length - 1)
+      const getRandomDoodlePositionIndex = getUniqueRandomNumber(0, doodlesAmount - 1)
+      const doodlePosition = doodlePositions[getRandomNumber(0, doodlesAmount - 1)]
+
+      for (let i = 0; i < doodlesAmount; i++) {
+        const doodleIndex = getRandomDoodleIndex.next().value
+        const positionIndex = getRandomDoodlePositionIndex.next().value
+
+        if (typeof doodleIndex !== "number" || typeof positionIndex !== "number") continue
+
+        const { width, height, viewBox, paths } = doodles[doodleIndex]
+        const position = doodlePosition[positionIndex]
+
+        const svg = document.createElementNS(NS, "svg")
+        svg.setAttribute("width", width)
+        svg.setAttribute("height", height)
+        svg.setAttribute("viewBox", viewBox)
+        svg.setAttribute("fill", "none")
+        svg.style.position = "absolute"
+        svg.style.top = position.top
+        svg.style.right = position.right
+        svg.style.bottom = position.bottom
+        svg.style.left = position.left
+
+        for (const path of paths) {
+          const shape = document.createElementNS(NS, "path")
+          shape.setAttribute("d", path)
+          shape.setAttribute("stroke", "currentColor")
+          shape.setAttribute("stroke-width", "0.5")
+          svg.appendChild(shape)
+        }
+
+        svg.animate([{ opacity: "0" }, { opacity: ".7" }], {
+          duration: 150,
+          fill: "forwards",
+          easing: "ease-in",
+        })
+
+        $cardContent.prepend(svg)
+        currentDoodles.push(svg)
+      }
+    }
+
+    const removeDoodles = () => {
+      currentDoodles.forEach(($doodle) => {
+        $doodle.animate([{ opacity: ".7" }, { opacity: "0" }], {
+          duration: 150,
+          fill: "forwards",
+          easing: "ease-out",
+        }).onfinish = () => $doodle.remove()
+      })
+      currentDoodles = []
+    }
+
+    $card.addEventListener("mouseenter", addDoodles)
+    $card.addEventListener("focusin", addDoodles)
+    $card.addEventListener("mouseleave", removeDoodles)
+    $card.addEventListener("focusout", removeDoodles)
+
+    function cleanupDoodles() {
+      currentDoodles.forEach((d) => d.remove())
+      currentDoodles = []
+    }
+  })
+</script>
+
+<style>
+  .card {
+    position: relative;
+    display: block;
+    padding: 2px;
+    background-image: linear-gradient(hsl(0 0% 18%), hsl(0 0% 15%));
+    -webkit-tap-highlight-color: transparent;
+    aspect-ratio: 45 / 59;
+  }
+
+  .card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    background-image: linear-gradient(hsl(360 86% 46%), hsl(360 86% 26%));
+    /* background-image: linear-gradient(hsl(240 80% 54%), hsl(240 80% 45%)); */
+    transition: opacity 150ms ease-out;
+  }
+
+  .card:is(:hover, :focus-visible)::before {
+    opacity: 1;
+    transition-timing-function: ease-in;
+  }
+
+  .card.slide-fade-in {
+    opacity: 0;
+    animation: slide-fade-in 600ms ease-out forwards;
+  }
+
+  .content {
+    isolation: isolate;
+    block-size: 100%;
+    background-image: radial-gradient(hsl(0 0% 20%), hsl(0 0% 8%) 80%);
+    overflow: hidden;
+  }
+
+  .fighter-image {
+    position: relative;
+    block-size: 100%;
+    inline-size: 100%;
+    object-fit: cover;
+    transition: transform 150ms ease-out;
+  }
+
+  .card:is(:hover, :focus-visible) .fighter-image {
+    transform: scale(1.06);
+    transition-timing-function: ease-in;
+  }
+
+  @keyframes slide-fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

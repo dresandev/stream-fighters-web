@@ -1,0 +1,75 @@
+---
+import FighterSelectorCard from "@/components/fighter-selector-card.astro"
+---
+
+<div class="wrapper">
+  <div class="fighter-card">
+    <FighterSelectorCard />
+  </div>
+  <div class="fighter-card">
+    <FighterSelectorCard />
+  </div>
+  <div class="fighter-card">
+    <FighterSelectorCard />
+  </div>
+  <div class="fighter-card">
+    <FighterSelectorCard />
+  </div>
+  <div class="fighter-card">
+    <FighterSelectorCard />
+  </div>
+  <div class="fighter-card">
+    <FighterSelectorCard />
+  </div>
+  <div class="fighter-card">
+    <FighterSelectorCard />
+  </div>
+  <div class="fighter-card">
+    <FighterSelectorCard />
+  </div>
+  <div class="fighter-card">
+    <FighterSelectorCard />
+  </div>
+  <div class="fighter-card">
+    <FighterSelectorCard />
+  </div>
+  <div class="fighter-card">
+    <FighterSelectorCard />
+  </div>
+  <div class="fighter-card">
+    <FighterSelectorCard />
+  </div>
+  <div class="fighter-card">
+    <FighterSelectorCard />
+  </div>
+  <div class="fighter-card">
+    <FighterSelectorCard />
+  </div>
+</div>
+
+<style>
+  .wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: clamp(0.875rem, 0.792rem + 0.174vw, 1rem);
+    max-inline-size: 942px;
+    margin-inline: auto;
+  }
+
+  .fighter-card {
+    inline-size: clamp(5.625rem, 5.042rem + 1.215vw, 6.5rem);
+    transition: opacity 150ms;
+  }
+
+  .wrapper:has(:hover, :focus-visible) .fighter-card:not(:has(:hover, :focus-visible)) {
+    filter: grayscale(0.7);
+    opacity: 0.6;
+  }
+
+  @media screen and (max-width: 767px) {
+    .wrapper {
+      display: none;
+    }
+  }
+</style>

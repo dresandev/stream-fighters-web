@@ -1,0 +1,31 @@
+---
+interface Props {
+  class?: string
+}
+
+const { class: className, ...props } = Astro.props
+---
+
+<div class:list={["this-slide", className]} {...props}>
+  <slot />
+</div>
+
+<style>
+  .this-slide {
+    flex: 0 0 var(--slide-size);
+    min-inline-size: 0;
+    padding-inline-start: var(--slide-spacing);
+    transform: translate3d(0, 0, 0);
+    user-select: none;
+    pointer-events: none;
+    filter: grayscale(0.7);
+    opacity: 0.6;
+    transition: opacity 150ms;
+  }
+
+  :global(.this-slide.is-active) {
+    filter: grayscale(0);
+    opacity: 1;
+    pointer-events: all;
+  }
+</style>

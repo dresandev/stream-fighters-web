@@ -1,0 +1,233 @@
+---
+import TicketIcon from "@/components/icons/ticket-icon.astro"
+---
+
+<header class="header">
+  <a class="mobile-home-link" href="/" aria-label="Ir al inicio">
+    <img src="/images/stream-fighters-4-logo.svg" alt="Logo de stream fighter 4" />
+  </a>
+
+  <div id="menu" class="menu">
+    <a class="desktop-home-link" href="/" aria-label="Ir al inicio">
+      <img src="/images/stream-fighters-4-logo.svg" alt="Logo de stream fighter 4" />
+    </a>
+
+    <nav class="nav">
+      <a class="link" href="#">Combates</a>
+      <a class="link" href="#">Pronósticos</a>
+    </nav>
+
+    <a
+      href="https://www.taquillalive.com/book-performance/?artist=stream-fighters&event=TCL.EVN885.PRF1"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="link cta"
+    >
+      <TicketIcon class="ticket-icon" />
+      Comprar entradas
+    </a>
+  </div>
+
+  <button id="menu-mobile-button" class="menu-button" type="button" aria-label="Abrir menú">
+    <span class="line"></span>
+    <span class="line"></span>
+  </button>
+</header>
+
+<script>
+  import { $, $$ } from "@/utils/dom-selector"
+
+  const $header = $(".header")!
+
+  let lastKnownScrollY = 0
+  let ticking = false
+
+  function onScroll() {
+    lastKnownScrollY = window.scrollY
+
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        $header.classList.toggle("scrolled", lastKnownScrollY > 100)
+        ticking = false
+      })
+
+      ticking = true
+    }
+  }
+
+  window.addEventListener("scroll", onScroll)
+
+  const $mobileButton = $("#menu-mobile-button")!
+  const $mobileMenu = $("#menu")!
+
+  $mobileButton.addEventListener("click", () => {
+    const currentState = $mobileButton.getAttribute("data-state")
+    const isOpen = currentState === "open"
+    const newState = isOpen ? "closed" : "open"
+    document.body.toggleAttribute("data-scroll-locked", !isOpen)
+    $mobileButton.ariaLabel = `${currentState === "open" ? "Cerrar" : "Abrir"} menú`
+    $mobileButton.setAttribute("data-state", newState)
+    $mobileMenu.setAttribute("data-state", newState)
+  })
+</script>
+
+<style>
+  .header {
+    --border-color: transparent;
+    position: fixed;
+    inset-inline: 0;
+    z-index: 10;
+    padding: 16px 32px;
+    border-block-end: 1px solid var(--border-color);
+    transition-property: background-color, backdrop-filter, border-block-end-color;
+    transition-duration: 150ms;
+  }
+
+  :global(.header.scrolled) {
+    --border-color: hsl(0 0% 99% / 0.1);
+    background-color: hsl(var(--color-background-hsl) / 0.8);
+    backdrop-filter: saturate(180%) blur(5px);
+  }
+
+  .desktop-home-link {
+    display: none;
+  }
+
+  .menu-button {
+    --size: 32px;
+    -webkit-tap-highlight-color: transparent;
+    display: grid;
+    align-content: center;
+    justify-items: center;
+    row-gap: 8px;
+    block-size: var(--size);
+    inline-size: var(--size);
+    padding-inline: 0;
+    background-color: transparent;
+  }
+
+  .menu-button > .line {
+    block-size: 3px;
+    inline-size: 80%;
+    background-color: currentColor;
+    border-radius: 2px;
+    transform-origin: 7px;
+    transition: transform 250ms cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  }
+
+  .menu-button[data-state="open"] > .line:first-of-type {
+    transform: rotateZ(45deg) translate(2px);
+  }
+
+  .menu-button[data-state="open"] > .line:last-of-type {
+    transform: rotateZ(-45deg) translate(2px);
+  }
+
+  .nav {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .link {
+    font-family: var(--primary-font);
+    font-size: 24px;
+    font-weight: 500;
+    inline-size: fit-content;
+    letter-spacing: 1px;
+    position: relative;
+  }
+
+  .link::before {
+    background-color: currentColor;
+    block-size: 1px;
+    content: "";
+    inline-size: 100%;
+    inset-block-end: 0;
+    mask-image: linear-gradient(to right, black 50%, transparent 100%);
+    position: absolute;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 250ms;
+  }
+
+  .link:is(:hover, :focus-visible)::before {
+    transform: scaleX(1);
+  }
+
+  .ticket-icon {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-end: -28px;
+    block-size: max-content;
+    margin-block: auto;
+  }
+
+  @media (hover: hover) {
+    .ticket-icon {
+      opacity: 0;
+      transition: opacity 250ms;
+    }
+
+    .link:is(:hover, :focus-visible) > .ticket-icon {
+      opacity: 1;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .header {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .menu {
+      position: fixed;
+      inset: 65px 0 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      block-size: calc(100vh - 65px);
+      padding: 24px;
+      background-color: var(--background-color);
+      opacity: 0;
+      visibility: hidden;
+      transition-duration: 250ms;
+      transition-property: opacity, visibility;
+    }
+
+    .menu[data-state="open"] {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  @media screen and (min-width: 769px) {
+    .mobile-home-link,
+    .menu-button {
+      display: none;
+    }
+
+    .desktop-home-link {
+      display: block;
+    }
+
+    .menu {
+      display: flex;
+      column-gap: 16px;
+      margin-inline: auto;
+      max-inline-size: 1200px;
+    }
+
+    .nav {
+      flex-direction: row;
+    }
+
+    .link {
+      font-size: 20px;
+    }
+
+    .link.cta {
+      margin-inline-start: auto;
+    }
+  }
+</style>
