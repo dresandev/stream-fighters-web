@@ -4,7 +4,7 @@ export const getRandomNumber = (min: number, max: number) => {
   }
 
   const minNumber = Math.ceil(min);
-  const maxNUmber = Math.floor(max);
+  const maxNumber = Math.floor(max);
 
-  return Math.floor(Math.random() * (maxNUmber - minNumber + 1)) + minNumber;
+  return Math.floor(Math.random() * (maxNumber - minNumber + 1)) + minNumber;
 }

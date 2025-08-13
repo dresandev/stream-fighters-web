@@ -1,12 +1,4 @@
 @font-face {
-  font-family: "IBMPlexSans";
-  font-display: swap;
-  font-weight: 100 900;
-  font-style: normal;
-  src: url("/fonts/IBMPlexSans-VF.ttf") format("truetype");
-}
-
-@font-face {
   font-family: "Bebas Neue";
   font-display: swap;
   font-weight: 400;
