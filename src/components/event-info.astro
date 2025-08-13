@@ -1,0 +1,101 @@
+<div id="event-info" class="wrapper hide">
+  <img
+    class="logo slide-fade-in"
+    src="/images/stream-fighters-4-full-logo.png"
+    alt="Logo de Stream fighters 4"
+    width="300"
+    height="211"
+  />
+  <a
+    class="link slide-fade-in"
+    href="https://maps.app.goo.gl/c86Xt2SacrXphWo8A"
+    target="_blank"
+    rel="noopener noreferrer"
+    title="Lugar y fecha de Stream Fighters 4"
+  >
+    <time datetime="2025-10-18">18 de Octubre</time>
+    <br />
+    <span>Coliseo Medplus, Bogotá</span>
+  </a>
+  <a
+    class="link kick-westcol slide-fade-in"
+    href="https://kick.com/westcol"
+    target="_blank"
+    rel="noopener noreferrer"
+    title="Disfruta del evento en vivo por el canal de Kick de Westcol"
+  >
+    Kick Westcol
+  </a>
+</div>
+
+<style>
+  .wrapper {
+    margin-block-end: auto;
+    padding-block-start: 42px;
+  }
+
+  .wrapper.hide {
+    opacity: 0;
+  }
+
+  .logo {
+    inline-size: clamp(16.875rem, 16.42rem + 1.942vw, 18.75rem);
+    block-size: auto;
+    padding-block-end: 28px;
+    margin-inline: auto;
+  }
+
+  .link {
+    display: block;
+    inline-size: fit-content;
+    margin-inline: auto;
+    font-family: var(--primary-font);
+    font-size: clamp(1.5rem, 1.439rem + 0.259vw, 1.75rem);
+    text-align: center;
+    text-shadow: 3px 3px 6px hsl(0 0% 0% / 0.5);
+    transition: transform 200ms;
+    transform-origin: bottom;
+  }
+
+  .link.kick-westcol {
+    transition-property: transform, color;
+    color: hsl(104 97% 54%);
+  }
+
+  @media (hover: hover) {
+    .link:hover {
+      transform: scale(1.1);
+    }
+
+    .link.kick-westcol {
+      color: currentColor;
+    }
+
+    .link.kick-westcol:is(:hover, :focus-visible) {
+      color: hsl(104 97% 54%);
+    }
+  }
+
+  .slide-fade-in {
+    opacity: 0;
+    animation: slide-fade-in 450ms forwards 1s;
+  }
+
+  .slide-fade-in:nth-child(1) {
+    animation-delay: 300ms;
+  }
+
+  .slide-fade-in:nth-child(2) {
+    animation-delay: 450ms;
+  }
+
+  .slide-fade-in:nth-child(3) {
+    animation-delay: 550ms;
+  }
+
+  @keyframes slide-fade-in {
+    to {
+      opacity: 1;
+    }
+  }
+</style>

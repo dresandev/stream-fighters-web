@@ -1,0 +1,93 @@
+---
+import Vs from "@/components/vs.astro"
+---
+
+<div class="wrapper">
+  <img class="fighter-image selected" src="/images/fighter/full/may.png" alt="" />
+  <div class="name-badge">May Osorio</div>
+  <img class="fighter-image" src="/images/fighter/full/milica.png" alt="" />
+  <div class="name-badge">Milica</div>
+  <Vs class="vs" />
+</div>
+
+<style>
+  .wrapper {
+    position: absolute;
+    inset-block-end: 200px;
+    inset-inline: 0;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .fighter-image {
+    block-size: auto;
+    inline-size: auto;
+    mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+    filter: grayscale(0.7);
+    opacity: 0.8;
+  }
+
+  .fighter-image.selected {
+    filter: unset;
+    opacity: 1;
+  }
+
+  .vs {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    block-size: fit-content;
+    font-size: clamp(2.5rem, 2.045rem + 1.942vw, 4.375rem);
+  }
+
+  .name-badge {
+    position: absolute;
+    inset-block-end: clamp(4.063rem, 2.476rem + 3.301vw, 6.438rem);
+    min-inline-size: 14ch;
+    font-size: clamp(1.625rem, 1.473rem + 0.647vw, 2.25rem);
+    font-family: var(--primary-font);
+    line-height: normal;
+    background-image: linear-gradient(
+      var(--gradient-direction),
+      hsl(0 0% 9%) 25%,
+      hsl(0 0% 17%) 80%,
+      hsl(0 0% 26%) 100%
+    );
+    border-block-end: 3px solid var(--border-color);
+  }
+
+  .fighter-image.selected + .name-badge {
+    --border-color: hsl(359 97% 46%);
+    --gradient-direction: to right;
+    inset-inline-start: 0;
+    padding: 4px 28px 0 16px;
+    clip-path: polygon(0 0, 100% 0%, 90% 100%, 0% 100%);
+  }
+
+  .fighter-image:not(.selected) + .name-badge {
+    --border-color: hsl(240 80% 54%);
+    --gradient-direction: to left;
+    inset-inline-end: 0;
+    padding: 4px 16px 0 28px;
+    clip-path: polygon(0 0, 100% 0%, 100% 100%, 10% 100%);
+    text-align: end;
+  }
+
+  @media screen and (max-width: 768px) {
+    .wrapper {
+      inset-inline: var(--app-padding);
+      gap: 12px;
+    }
+
+    .fighter-image {
+      min-inline-size: 0;
+      max-block-size: 450px;
+      object-fit: cover;
+      aspect-ratio: 1 / 2;
+    }
+
+    .name-badge {
+      inset-block-end: 36px;
+    }
+  }
+</style>

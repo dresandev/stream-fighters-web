@@ -3,39 +3,37 @@ import TicketIcon from "@/components/icons/ticket-icon.astro"
 ---
 
 <header class="header">
-  <a class="mobile-home-link" href="/" aria-label="Ir al inicio">
-    <img src="/images/stream-fighters-4-logo.svg" alt="Logo de stream fighter 4" />
-  </a>
-
-  <div id="menu" class="menu">
-    <a class="desktop-home-link" href="/" aria-label="Ir al inicio">
+  <div class="content">
+    <a class="home-link" href="/" aria-label="Ir al inicio">
       <img src="/images/stream-fighters-4-logo.svg" alt="Logo de stream fighter 4" />
     </a>
 
-    <nav class="nav">
-      <a class="link" href="#">Combates</a>
-      <a class="link" href="#">Pronósticos</a>
-    </nav>
+    <div id="menu" class="menu">
+      <nav class="nav">
+        <a class="link" href="#">Combates</a>
+        <a class="link" href="#">Pronósticos</a>
+      </nav>
 
-    <a
-      href="https://www.taquillalive.com/book-performance/?artist=stream-fighters&event=TCL.EVN885.PRF1"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="link cta"
-    >
-      <TicketIcon class="ticket-icon" />
-      Comprar entradas
-    </a>
+      <a
+        href="https://www.taquillalive.com/book-performance/?artist=stream-fighters&event=TCL.EVN885.PRF1"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="link cta"
+      >
+        <TicketIcon class="ticket-icon" />
+        Comprar entradas
+      </a>
+    </div>
+
+    <button id="menu-mobile-button" class="menu-button" type="button" aria-label="Abrir menú">
+      <span class="line"></span>
+      <span class="line"></span>
+    </button>
   </div>
-
-  <button id="menu-mobile-button" class="menu-button" type="button" aria-label="Abrir menú">
-    <span class="line"></span>
-    <span class="line"></span>
-  </button>
 </header>
 
 <script>
-  import { $, $$ } from "@/utils/dom-selector"
+  import { $ } from "@/utils/dom-selector"
 
   const $header = $(".header")!
 
@@ -73,11 +71,15 @@ import TicketIcon from "@/components/icons/ticket-icon.astro"
 
 <style>
   .header {
+    --header-block-size: 60px;
     --border-color: transparent;
     position: fixed;
     inset-inline: 0;
     z-index: 10;
-    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    padding-inline: 24px;
+    block-size: var(--header-block-size);
     border-block-end: 1px solid var(--border-color);
     transition-property: background-color, backdrop-filter, border-block-end-color;
     transition-duration: 150ms;
@@ -87,40 +89,6 @@ import TicketIcon from "@/components/icons/ticket-icon.astro"
     --border-color: hsl(0 0% 99% / 0.1);
     background-color: hsl(var(--color-background-hsl) / 0.8);
     backdrop-filter: saturate(180%) blur(5px);
-  }
-
-  .desktop-home-link {
-    display: none;
-  }
-
-  .menu-button {
-    --size: 32px;
-    -webkit-tap-highlight-color: transparent;
-    display: grid;
-    align-content: center;
-    justify-items: center;
-    row-gap: 8px;
-    block-size: var(--size);
-    inline-size: var(--size);
-    padding-inline: 0;
-    background-color: transparent;
-  }
-
-  .menu-button > .line {
-    block-size: 3px;
-    inline-size: 80%;
-    background-color: currentColor;
-    border-radius: 2px;
-    transform-origin: 7px;
-    transition: transform 250ms cubic-bezier(0.68, -0.55, 0.27, 1.55);
-  }
-
-  .menu-button[data-state="open"] > .line:first-of-type {
-    transform: rotateZ(45deg) translate(2px);
-  }
-
-  .menu-button[data-state="open"] > .line:last-of-type {
-    transform: rotateZ(-45deg) translate(2px);
   }
 
   .nav {
@@ -139,16 +107,17 @@ import TicketIcon from "@/components/icons/ticket-icon.astro"
   }
 
   .link::before {
-    background-color: currentColor;
-    block-size: 1px;
     content: "";
-    inline-size: 100%;
-    inset-block-end: 0;
-    mask-image: linear-gradient(to right, black 50%, transparent 100%);
     position: absolute;
+    inset-block-end: 0;
+    block-size: 1px;
+    inline-size: 100%;
+    background-color: currentColor;
+    mask-image: linear-gradient(to right, black 50%, transparent 100%);
     transform: scaleX(0);
     transform-origin: left;
     transition: transform 250ms;
+    will-change: transform;
   }
 
   .link:is(:hover, :focus-visible)::before {
@@ -163,59 +132,99 @@ import TicketIcon from "@/components/icons/ticket-icon.astro"
     margin-block: auto;
   }
 
-  @media (hover: hover) {
-    .ticket-icon {
-      opacity: 0;
-      transition: opacity 250ms;
-    }
+  .home-link {
+    transition: opacity 200ms;
+  }
 
-    .link:is(:hover, :focus-visible) > .ticket-icon {
-      opacity: 1;
-    }
+  .home-link:hover {
+    opacity: 0.6;
   }
 
   @media screen and (max-width: 768px) {
-    .header {
+    .content {
       display: flex;
+      inline-size: 100%;
       justify-content: space-between;
+    }
+
+    .menu-button {
+      --size: 32px;
+      -webkit-tap-highlight-color: transparent;
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      row-gap: 8px;
+      block-size: var(--size);
+      inline-size: var(--size);
+      padding-inline: 0;
+      background-color: transparent;
+    }
+
+    .menu-button > .line {
+      block-size: 3px;
+      inline-size: 80%;
+      background-color: currentColor;
+      border-radius: 2px;
+      transform-origin: 7px;
+      transition: transform 200ms cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    }
+
+    .menu-button[data-state="open"] > .line:first-of-type {
+      transform: rotateZ(45deg) translate(2px);
+    }
+
+    .menu-button[data-state="open"] > .line:last-of-type {
+      transform: rotateZ(-45deg) translate(2px);
     }
 
     .menu {
       position: fixed;
-      inset: 65px 0 0 0;
+      inset: var(--header-block-size) 0 0 0;
       display: flex;
       flex-direction: column;
       gap: 16px;
-      block-size: calc(100vh - 65px);
+      block-size: calc(100svh - var(--header-block-size));
       padding: 24px;
-      background-color: var(--background-color);
+      background: url("images/form-shape.svg") bottom no-repeat var(--background-color);
+      background-size: 100% auto;
+      overflow: hidden auto;
+      scrollbar-width: thin;
       opacity: 0;
       visibility: hidden;
-      transition-duration: 250ms;
-      transition-property: opacity, visibility;
+      transform: translateY(-10px);
+      transition:
+        transform 100ms,
+        opacity 100ms cubic-bezier(0, 0, 0.25, 1),
+        visibility 0s linear 100ms;
     }
 
     .menu[data-state="open"] {
       opacity: 1;
       visibility: visible;
+      transform: translateY(0);
+      transition:
+        transform 200ms,
+        opacity 0.2ms cubic-bezier(0, 0, 0.25, 1),
+        visibility 0ms;
     }
   }
 
   @media screen and (min-width: 769px) {
-    .mobile-home-link,
     .menu-button {
       display: none;
     }
 
-    .desktop-home-link {
-      display: block;
+    .content {
+      display: flex;
+      column-gap: 32px;
+      margin-inline: auto;
+      inline-size: min(100%, 1200px);
     }
 
     .menu {
       display: flex;
       column-gap: 16px;
-      margin-inline: auto;
-      max-inline-size: 1200px;
+      inline-size: 100%;
     }
 
     .nav {
@@ -228,6 +237,15 @@ import TicketIcon from "@/components/icons/ticket-icon.astro"
 
     .link.cta {
       margin-inline-start: auto;
+    }
+
+    .ticket-icon {
+      opacity: 0;
+      transition: opacity 250ms;
+    }
+
+    .link:is(:hover, :focus-visible) > .ticket-icon {
+      opacity: 1;
     }
   }
 </style>

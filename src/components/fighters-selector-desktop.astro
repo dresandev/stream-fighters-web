@@ -49,12 +49,67 @@ import FighterSelectorCard from "@/components/fighter-selector-card.astro"
 
 <style>
   .wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: clamp(0.875rem, 0.792rem + 0.174vw, 1rem);
-    max-inline-size: 942px;
-    margin-inline: auto;
+    display: grid;
+    grid-template-areas:
+      "the-nino milica shelao jh-escobar cristo-rata belosmaki may-osorio by-king"
+      "empty karina yina-calderon westcol incognito andrea-valdiri karely empty2";
+    gap: clamp(0.813rem, 0.688rem + 0.26vw, 1rem);
+  }
+
+  .fighter-card:nth-of-type(1) {
+    grid-area: the-nino;
+  }
+
+  .fighter-card:nth-of-type(2) {
+    grid-area: milica;
+  }
+
+  .fighter-card:nth-of-type(3) {
+    grid-area: shelao;
+  }
+
+  .fighter-card:nth-of-type(4) {
+    grid-area: jh-escobar;
+  }
+
+  .fighter-card:nth-of-type(5) {
+    grid-area: cristo-rata;
+  }
+
+  .fighter-card:nth-of-type(6) {
+    grid-area: belosmaki;
+  }
+
+  .fighter-card:nth-of-type(7) {
+    grid-area: may-osorio;
+  }
+
+  .fighter-card:nth-of-type(8) {
+    grid-area: by-king;
+  }
+
+  .fighter-card:nth-of-type(9) {
+    grid-area: karina;
+  }
+
+  .fighter-card:nth-of-type(10) {
+    grid-area: yina-calderon;
+  }
+
+  .fighter-card:nth-of-type(11) {
+    grid-area: westcol;
+  }
+
+  .fighter-card:nth-of-type(12) {
+    grid-area: incognito;
+  }
+
+  .fighter-card:nth-of-type(13) {
+    grid-area: andrea-valdiri;
+  }
+
+  .fighter-card:nth-of-type(14) {
+    grid-area: karely;
   }
 
   .fighter-card {
@@ -67,7 +122,71 @@ import FighterSelectorCard from "@/components/fighter-selector-card.astro"
     opacity: 0.6;
   }
 
-  @media screen and (max-width: 767px) {
+  @media screen and (max-width: 885px) {
+    .wrapper {
+      grid-template-areas:
+        "milica shelao jh-escobar yina-calderon cristo-rata belosmaki may-osorio"
+        "the-nino karina westcol andrea-valdiri incognito karely by-king";
+    }
+
+    .fighter-card:nth-of-type(1) {
+      grid-area: milica;
+    }
+
+    .fighter-card:nth-of-type(2) {
+      grid-area: shelao;
+    }
+
+    .fighter-card:nth-of-type(3) {
+      grid-area: jh-escobar;
+    }
+
+    .fighter-card:nth-of-type(4) {
+      grid-area: yina-calderon;
+    }
+
+    .fighter-card:nth-of-type(5) {
+      grid-area: cristo-rata;
+    }
+
+    .fighter-card:nth-of-type(6) {
+      grid-area: belosmaki;
+    }
+
+    .fighter-card:nth-of-type(7) {
+      grid-area: may-osorio;
+    }
+
+    .fighter-card:nth-of-type(8) {
+      grid-area: the-nino;
+    }
+
+    .fighter-card:nth-of-type(9) {
+      grid-area: karina;
+    }
+
+    .fighter-card:nth-of-type(10) {
+      grid-area: westcol;
+    }
+
+    .fighter-card:nth-of-type(11) {
+      grid-area: andrea-valdiri;
+    }
+
+    .fighter-card:nth-of-type(12) {
+      grid-area: incognito;
+    }
+
+    .fighter-card:nth-of-type(13) {
+      grid-area: karely;
+    }
+
+    .fighter-card:nth-of-type(14) {
+      grid-area: by-king;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
     .wrapper {
       display: none;
     }

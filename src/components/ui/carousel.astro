@@ -93,7 +93,8 @@ const { class: className, ...props } = Astro.props
   }
 
   .viewport {
-    overflow-x: clip;
+    padding-block: 4px;
+    overflow: clip visible;
     mask-image: linear-gradient(
       to right,
       transparent,
@@ -115,7 +116,7 @@ const { class: className, ...props } = Astro.props
     justify-content: center;
     align-items: center;
     block-size: 36px;
-    padding-block-start: 12px;
+    padding-block-start: 8px;
     -webkit-tap-highlight-color: transparent;
   }
 

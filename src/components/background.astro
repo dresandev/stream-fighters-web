@@ -1,0 +1,26 @@
+<div class="background"></div>
+
+<style>
+  .background {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: center / cover no-repeat url(/images/home-background-mobile.png);
+    pointer-events: none;
+    mask-image: linear-gradient(to bottom, black 95%, transparent);
+  }
+
+  .background::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: hsl(0 0% 0% / 0);
+    backdrop-filter: blur(12px);
+  }
+
+  @media screen and (min-width: 768px) {
+    .background {
+      background-image: url(/images/home-background-desktop.png);
+    }
+  }
+</style>

@@ -6,25 +6,27 @@ interface Props {
 const { class: className, ...props } = Astro.props
 ---
 
-<div class:list={["wrapper", className]} {...props}>VS</div>
+<div class:list={["vs-text", className]} {...props}>VS</div>
 
 <style>
-  .wrapper {
+  .vs-text {
+    isolation: isolate;
     position: relative;
     inline-size: fit-content;
-    padding: 0.07em 0.32em;
+    padding: 0.01em 0.33em;
     font-size: 28px;
     font-family: var(--primary-font);
     line-height: normal;
     user-select: none;
+    text-shadow: 2px 2px 2px hsl(0 0% 0% / 0.5);
   }
 
-  .wrapper::before {
+  .vs-text::before {
     content: "";
     position: absolute;
     z-index: -1;
     inset: 0;
     background-image: linear-gradient(to right, #e80308, #a40000);
-    transform: rotate(-10deg) translateY(-2px);
+    transform: rotate(-8deg) translateY(-2px);
   }
 </style>

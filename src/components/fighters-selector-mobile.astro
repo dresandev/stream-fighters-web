@@ -1,26 +1,26 @@
 ---
-import Carousel from "@/components/carousel.astro"
+import Carousel from "@/components/ui/carousel.astro"
+import Slide from "@/components/ui/slide.astro"
 import FighterSelectorCard from "@/components/fighter-selector-card.astro"
-import Slide from "@/components/slide.astro"
 import Vs from "@/components/vs.astro"
 ---
 
 <div class="container">
-  <Carousel class="wrapper">
+  <Carousel>
     <Slide class="slide">
-      <FighterSelectorCard class="item" initAnimation={false} />
+      <FighterSelectorCard class="fighter-selector-card" initAnimation={false} />
       <Vs class="vs" />
-      <FighterSelectorCard class="item" initAnimation={false} />
+      <FighterSelectorCard class="fighter-selector-card" initAnimation={false} />
     </Slide>
     <Slide class="slide">
-      <FighterSelectorCard class="item" initAnimation={false} />
+      <FighterSelectorCard class="fighter-selector-card" initAnimation={false} />
       <Vs class="vs" />
-      <FighterSelectorCard class="item" initAnimation={false} />
+      <FighterSelectorCard class="fighter-selector-card" initAnimation={false} />
     </Slide>
     <Slide class="slide">
-      <FighterSelectorCard class="item" initAnimation={false} />
+      <FighterSelectorCard class="fighter-selector-card" initAnimation={false} />
       <Vs class="vs" />
-      <FighterSelectorCard class="item" initAnimation={false} />
+      <FighterSelectorCard class="fighter-selector-card" initAnimation={false} />
     </Slide>
   </Carousel>
 </div>
@@ -28,11 +28,6 @@ import Vs from "@/components/vs.astro"
 <style>
   .container {
     margin-inline: calc(var(--app-padding) * -1);
-    overflow-x: hidden;
-  }
-
-  .wrapper {
-    margin-inline: auto;
     opacity: 0;
     animation: fade-in 250ms forwards 250ms;
   }
@@ -44,7 +39,7 @@ import Vs from "@/components/vs.astro"
     column-gap: 16px;
   }
 
-  .item {
+  .fighter-selector-card {
     inline-size: 120px;
   }
 
@@ -56,7 +51,7 @@ import Vs from "@/components/vs.astro"
     margin-block: auto;
   }
 
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: 769px) {
     .container {
       display: none;
     }
