@@ -78,7 +78,7 @@ import TicketIcon from "@/components/icons/ticket-icon.astro"
     z-index: 10;
     display: flex;
     align-items: center;
-    padding-inline: 24px;
+    padding-inline: 32px;
     block-size: var(--header-block-size);
     border-block-end: 1px solid var(--border-color);
     transition-property: background-color, backdrop-filter, border-block-end-color;
@@ -141,6 +141,10 @@ import TicketIcon from "@/components/icons/ticket-icon.astro"
   }
 
   @media screen and (max-width: 768px) {
+    .header {
+      padding-inline: var(--app-padding);
+    }
+
     .content {
       display: flex;
       inline-size: 100%;
@@ -185,7 +189,7 @@ import TicketIcon from "@/components/icons/ticket-icon.astro"
       gap: 16px;
       block-size: calc(100svh - var(--header-block-size));
       padding: 24px;
-      background: url("images/form-shape.svg") bottom no-repeat var(--background-color);
+      background: url("/images/form-shape.svg") bottom no-repeat var(--background-color);
       background-size: 100% auto;
       overflow: hidden auto;
       scrollbar-width: thin;

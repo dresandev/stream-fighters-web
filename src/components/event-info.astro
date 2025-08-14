@@ -1,10 +1,10 @@
-<div id="event-info" class="wrapper hide">
+<div id="event-info" class="event-info hide">
   <img
     class="logo slide-fade-in"
     src="/images/stream-fighters-4-full-logo.png"
     alt="Logo de Stream fighters 4"
-    width="300"
-    height="211"
+    width="350"
+    height="212"
   />
   <a
     class="link slide-fade-in"
@@ -29,17 +29,17 @@
 </div>
 
 <style>
-  .wrapper {
+  .event-info {
     margin-block-end: auto;
     padding-block-start: 42px;
   }
 
-  .wrapper.hide {
-    opacity: 0;
+  .event-info.hide {
+    /* visibility: hidden; */
   }
 
   .logo {
-    inline-size: clamp(16.875rem, 16.42rem + 1.942vw, 18.75rem);
+    inline-size: clamp(16.875rem, 15.661rem + 5.178vw, 21.875rem);
     block-size: auto;
     padding-block-end: 28px;
     margin-inline: auto;
@@ -78,7 +78,7 @@
 
   .slide-fade-in {
     opacity: 0;
-    animation: slide-fade-in 450ms forwards 1s;
+    animation: fade-in 450ms forwards 1s;
   }
 
   .slide-fade-in:nth-child(1) {
@@ -93,7 +93,7 @@
     animation-delay: 550ms;
   }
 
-  @keyframes slide-fade-in {
+  @keyframes fade-in {
     to {
       opacity: 1;
     }

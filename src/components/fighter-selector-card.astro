@@ -118,6 +118,7 @@ const { class: className, initAnimation = true, ...props } = Astro.props
 
 <style>
   .card {
+    --hover-border-background: linear-gradient(hsl(360 86% 46%), hsl(360 86% 26%));
     position: relative;
     display: block;
     padding: 2px;
@@ -126,17 +127,20 @@ const { class: className, initAnimation = true, ...props } = Astro.props
     aspect-ratio: 45 / 59;
   }
 
+  .card[data-is-versus="1"] {
+    --hover-border-background: linear-gradient(hsl(240 80% 54%), hsl(240 80% 45%));
+  }
+
   .card::before {
     content: "";
     position: absolute;
     inset: 0;
     opacity: 0;
-    background-image: linear-gradient(hsl(360 86% 46%), hsl(360 86% 26%));
-    /* background-image: linear-gradient(hsl(240 80% 54%), hsl(240 80% 45%)); */
+    background-image: var(--hover-border-background);
     transition: opacity 150ms ease-out;
   }
 
-  .card:is(:hover, :focus-visible)::before {
+  .card:is(:hover, :focus-visible, [data-is-versus="1"])::before {
     opacity: 1;
     transition-timing-function: ease-in;
   }
@@ -161,14 +165,13 @@ const { class: className, initAnimation = true, ...props } = Astro.props
     transition: transform 150ms ease-out;
   }
 
-  .card:is(:hover, :focus-visible) .fighter-image {
+  .card:is(:hover, :focus-visible, [data-is-versus="1"]) .fighter-image {
     transform: scale(1.06);
     transition-timing-function: ease-in;
   }
 
   @keyframes slide-fade-in {
     from {
-      opacity: 0;
       transform: translateY(30px);
     }
     to {

@@ -5,7 +5,7 @@ import FighterSelectorCard from "@/components/fighter-selector-card.astro"
 import Vs from "@/components/vs.astro"
 ---
 
-<div class="container">
+<div class="fighter-selector-mobile">
   <Carousel>
     <Slide class="slide">
       <FighterSelectorCard class="fighter-selector-card" initAnimation={false} />
@@ -26,7 +26,7 @@ import Vs from "@/components/vs.astro"
 </div>
 
 <style>
-  .container {
+  .fighter-selector-mobile {
     margin-inline: calc(var(--app-padding) * -1);
     opacity: 0;
     animation: fade-in 250ms forwards 250ms;
@@ -52,7 +52,7 @@ import Vs from "@/components/vs.astro"
   }
 
   @media screen and (min-width: 769px) {
-    .container {
+    .fighter-selector-mobile {
       display: none;
     }
   }

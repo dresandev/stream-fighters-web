@@ -2,7 +2,7 @@
 import Vs from "@/components/vs.astro"
 ---
 
-<div class="wrapper">
+<div class="selected-fighter-wrapper">
   <img class="fighter-image selected" src="/images/fighter/full/may.png" alt="" />
   <div class="name-badge">May Osorio</div>
   <img class="fighter-image" src="/images/fighter/full/milica.png" alt="" />
@@ -11,7 +11,8 @@ import Vs from "@/components/vs.astro"
 </div>
 
 <style>
-  .wrapper {
+  .selected-fighter-wrapper {
+    visibility: hidden;
     position: absolute;
     inset-block-end: 200px;
     inset-inline: 0;
@@ -74,7 +75,7 @@ import Vs from "@/components/vs.astro"
   }
 
   @media screen and (max-width: 768px) {
-    .wrapper {
+    .selected-fighter-wrapper {
       inset-inline: var(--app-padding);
       gap: 12px;
     }
