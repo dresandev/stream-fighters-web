@@ -1,4 +1,5 @@
 ---
+import { HOST_URL } from "astro:env/client"
 import Header from "@/components/header.astro"
 import "@/styles/fonts.css"
 import "@/styles/globals.css"
@@ -30,6 +31,22 @@ const { title, description, canonical } = Astro.props
       type="font/ttf"
       crossorigin="anonymous"
     />
+
+    <meta property="og:url" content={HOST_URL} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={title} />
+    <meta name="og:image" content=`${HOST_URL}/og.png` />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="es_CO" />
+
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content=`${HOST_URL}/og.png` />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:creator" content="@dresandev" />
   </head>
   <body>
     <Header />
