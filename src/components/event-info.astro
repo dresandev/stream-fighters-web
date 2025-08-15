@@ -1,11 +1,14 @@
-<div id="event-info" class="event-info hide">
-  <img
-    class="logo slide-fade-in"
-    src="/images/logos/stream-fighters-4-full-logo.png"
-    alt="Logo de Stream fighters 4"
-    width="350"
-    height="212"
-  />
+<div id="event-info" class="event-info">
+  <div class="logo-wrapper">
+    <div class="logo-shadow"></div>
+    <img
+      class="logo slide-fade-in"
+      src="/images/logos/stream-fighters-4-full-logo.png"
+      alt="Logo de Stream fighters 4"
+      width="350"
+      height="212"
+    />
+  </div>
   <a
     class="link slide-fade-in"
     href="https://maps.app.goo.gl/c86Xt2SacrXphWo8A"
@@ -30,19 +33,29 @@
 
 <style>
   .event-info {
+    /* visibility: hidden; */
     margin-block-end: auto;
     padding-block-start: 42px;
   }
 
-  .event-info.hide {
-    /* visibility: hidden; */
+  .logo-wrapper {
+    position: relative;
+    inline-size: fit-content;
+    margin-inline: auto;
+  }
+
+  .logo-shadow {
+    position: absolute;
+    inset: -12px;
+    background: radial-gradient(circle at center, hsl(0 94% 25% / 0.4) 0%, transparent 100%);
+    filter: blur(8px);
   }
 
   .logo {
     inline-size: clamp(16.875rem, 15.661rem + 5.178vw, 21.875rem);
     block-size: auto;
     padding-block-end: 28px;
-    margin-inline: auto;
+    image-rendering: pixelated;
   }
 
   .link {
