@@ -6,7 +6,8 @@ import SelectedFighter from "@/components/selected-fighter.astro"
 import FightersSelectorDesktop from "@/components/fighters-selector-desktop.astro"
 import FightersSelectorMobile from "@/components/fighters-selector-mobile.astro"
 
-const title = "Stream Fighters 4 - Evento de boxeo entre streamers creado por Westcol"
+const title =
+  "Stream Fighters 4 – Evento de boxeo creado por WestCol con streamers y creadores de contenido"
 const description =
   "El evento de boxeo amateur y música más grande de Latinoamérica, creado y presentado por WestCol. Explora los combates, conoce a los peleadores y haz tus predicciones."
 const canonical = "https://stream-fighters-web.vercel.app"
@@ -29,7 +30,7 @@ const canonical = "https://stream-fighters-web.vercel.app"
     position: relative;
     display: flex;
     flex-direction: column;
-    row-gap: 230px;
+    row-gap: 180px;
     min-block-size: 100svh;
     padding: 32px var(--app-padding);
   }
@@ -39,6 +40,10 @@ const canonical = "https://stream-fighters-web.vercel.app"
     inline-size: fit-content;
     margin-inline: auto;
     pointer-events: none;
+  }
+
+  :global(.fighter-selector-wrapper > *) {
+    pointer-events: auto;
   }
 
   @media screen and (max-width: 768px) {
