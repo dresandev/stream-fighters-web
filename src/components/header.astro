@@ -1,5 +1,6 @@
 ---
 import TicketIcon from "@/components/icons/ticket-icon.astro"
+import StarIcon from "@/components/icons/star-icon.astro"
 ---
 
 <header class="header">
@@ -25,7 +26,9 @@ import TicketIcon from "@/components/icons/ticket-icon.astro"
         target="_blank"
         rel="noopener noreferrer"
         class="link cta"
+        title="Comprar entradas para Stream Fighters 4"
       >
+        <StarIcon size={10} class="star-icon" />
         <TicketIcon class="ticket-icon" />
         Comprar entradas
       </a>
@@ -138,12 +141,25 @@ import TicketIcon from "@/components/icons/ticket-icon.astro"
     margin-block: auto;
   }
 
+  .star-icon {
+    position: absolute;
+    inset-inline-start: -10px;
+    inset-block-start: -2px;
+    animation: blink 2s infinite linear;
+  }
+
   .home-link {
     transition: opacity 200ms;
   }
 
   .home-link:hover {
     opacity: 0.6;
+  }
+
+  @keyframes blink {
+    50% {
+      opacity: 0.5;
+    }
   }
 
   @media screen and (max-width: 768px) {
