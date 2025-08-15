@@ -5,7 +5,13 @@ import TicketIcon from "@/components/icons/ticket-icon.astro"
 <header class="header">
   <div class="content">
     <a class="home-link" href="/" aria-label="Ir al inicio">
-      <img src="/images/stream-fighters-4-logo.svg" alt="Logo de stream fighter 4" />
+      <img
+        src="/images/logos/stream-fighters-4-logo.svg"
+        alt="Logo de stream fighter 4"
+        width="53"
+        height="30"
+        fetchpriority="high"
+      />
     </a>
 
     <div id="menu" class="menu">
@@ -189,7 +195,7 @@ import TicketIcon from "@/components/icons/ticket-icon.astro"
       gap: 16px;
       block-size: calc(100svh - var(--header-block-size));
       padding: 24px;
-      background: url("/images/form-shape.svg") bottom no-repeat var(--background-color);
+      background: url("/images/shapes/form-shape.svg") bottom no-repeat var(--background-color);
       background-size: 100% auto;
       overflow: hidden auto;
       scrollbar-width: thin;
