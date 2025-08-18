@@ -1,25 +1,40 @@
 ---
+import type { Fighter } from "@/types/fighters"
+
 interface Props {
+  id: Fighter["id"]
+  versusId: Fighter["versusId"]
+  name: Fighter["name"]
+  thumbnailImage: Fighter["thumbnailImage"]
+  isMobile?: boolean
   class?: string
-  initAnimation?: boolean
 }
 
-const { class: className, initAnimation = true, ...props } = Astro.props
+const {
+  id,
+  versusId,
+  name,
+  thumbnailImage,
+  isMobile = false,
+  class: className,
+  ...props
+} = Astro.props
 ---
 
 <a
-  data-id="fighter-card"
-  data-init-animation={initAnimation ? "1" : "0"}
-  aria-label="Ver perfil del peleador"
-  class:list={["card", { "slide-fade-in": initAnimation }, className]}
-  href="#"
+  data-id={id}
+  data-versus-id={versusId}
+  data-is-mobile={Number(isMobile)}
+  aria-label={`Ir al perfil del peleador ${name}`}
+  class:list={["fighter-card", { "slide-fade-in": !isMobile }, className]}
+  href={`/peleador/${id}`}
   {...props}
 >
-  <div data-id="fighter-card-content" class="content">
+  <div class="fighter-card-content">
     <img
       class="fighter-image"
-      src="/images/fighters/thumbnails/milica.png"
-      alt="Imagen miniatura de Milica"
+      src={thumbnailImage}
+      alt={`Imagen miniatura de ${name}`}
       width="100"
       height="133"
     />
@@ -32,23 +47,23 @@ const { class: className, initAnimation = true, ...props } = Astro.props
   import { getRandomNumber } from "@/utils/get-random-number"
   import { doodles, doodlePositions } from "@/data/doodles"
 
-  const $cards = $$("a[data-id='fighter-card']")
+  const $cards = $$("a.fighter-card")
   const NS = "http://www.w3.org/2000/svg"
   const doodlesAmount = 4
 
   $cards.forEach(($card, i) => {
     let currentDoodles: SVGElement[] = []
-    const initAnimationString = $card.getAttribute("data-init-animation")
-    const $cardContent = $card.querySelector("div[data-id='fighter-card-content']")!
+    const $cardContent = $card.querySelector("div.fighter-card-content")!
+    const dataIsMobile = $card.getAttribute("data-is-mobile")
+    const isMobileCard = Boolean(Number(dataIsMobile))
 
-    const initAnimationBoolean = Boolean(Number(initAnimationString))
-
-    if (initAnimationBoolean) {
+    if (!isMobileCard) {
       $card.style.animationDelay = `${i * 0.05}s`
     }
 
     const addDoodles = () => {
-      cleanupDoodles()
+      currentDoodles.forEach((d) => d.remove())
+      currentDoodles = []
 
       const getRandomDoodleIndex = getUniqueRandomNumber(0, doodles.length - 1)
       const getRandomDoodlePositionIndex = getUniqueRandomNumber(0, doodlesAmount - 1)
@@ -104,20 +119,39 @@ const { class: className, initAnimation = true, ...props } = Astro.props
       currentDoodles = []
     }
 
-    $card.addEventListener("mouseenter", addDoodles)
-    $card.addEventListener("focusin", addDoodles)
-    $card.addEventListener("mouseleave", removeDoodles)
-    $card.addEventListener("focusout", removeDoodles)
-
-    function cleanupDoodles() {
-      currentDoodles.forEach((d) => d.remove())
-      currentDoodles = []
+    const dispatchFighterCardMouseEnterEvent = () => {
+      const event = new CustomEvent("fighter-card-mouse-enter", {
+        bubbles: true,
+        composed: true,
+        detail: { id: $card.getAttribute("data-id") },
+      })
+      $card.dispatchEvent(event)
     }
+
+    const dispatchFighterCardMouseLeaveEvent = () => {
+      const event = new CustomEvent("fighter-card-mouse-leave")
+      $card.dispatchEvent(event)
+    }
+
+    const handleMouseEnter = () => {
+      dispatchFighterCardMouseEnterEvent()
+      addDoodles()
+    }
+
+    const handleMouseLeave = () => {
+      dispatchFighterCardMouseLeaveEvent()
+      removeDoodles()
+    }
+
+    $card.addEventListener("mouseenter", handleMouseEnter)
+    $card.addEventListener("focusin", handleMouseEnter)
+    $card.addEventListener("mouseleave", handleMouseLeave)
+    $card.addEventListener("focusout", handleMouseLeave)
   })
 </script>
 
 <style>
-  .card {
+  .fighter-card {
     --hover-border-background: linear-gradient(hsl(360 86% 46%), hsl(360 86% 26%));
     position: relative;
     display: block;
@@ -127,11 +161,11 @@ const { class: className, initAnimation = true, ...props } = Astro.props
     aspect-ratio: 45 / 59;
   }
 
-  .card[data-is-versus="1"] {
+  .fighter-card[data-is-versus="1"] {
     --hover-border-background: linear-gradient(hsl(240 80% 54%), hsl(240 80% 45%));
   }
 
-  .card::before {
+  .fighter-card::before {
     content: "";
     position: absolute;
     inset: 0;
@@ -140,39 +174,37 @@ const { class: className, initAnimation = true, ...props } = Astro.props
     transition: opacity 150ms ease-out;
   }
 
-  .card:is(:hover, :focus-visible, [data-is-versus="1"])::before {
+  .fighter-card:is(:hover, :focus-visible, [data-is-versus="1"])::before {
     opacity: 1;
     transition-timing-function: ease-in;
   }
 
-  .card.slide-fade-in {
-    opacity: 0;
-    animation: slide-fade-in 600ms ease-out forwards;
+  .fighter-card.slide-fade-in {
+    /* animation: slide-fade-in 600ms ease-out forwards; */
   }
 
-  .content {
+  .fighter-card-content {
     isolation: isolate;
     block-size: 100%;
-    background-image: radial-gradient(hsl(0 0% 20%), hsl(0 0% 8%) 80%);
+    background-image: radial-gradient(hsl(0 0% 25%), hsl(0 0% 8%) 80%);
     overflow: hidden;
   }
 
   .fighter-image {
     position: relative;
-    block-size: 100%;
-    inline-size: 100%;
-    object-fit: cover;
+    block-size: auto;
     transition: transform 150ms ease-out;
   }
 
-  .card:is(:hover, :focus-visible, [data-is-versus="1"]) .fighter-image {
+  .fighter-card:is(:hover, :focus-visible, [data-is-versus="1"]) .fighter-image {
     transform: scale(1.06);
     transition-timing-function: ease-in;
   }
 
   @keyframes slide-fade-in {
     from {
-      transform: translateY(30px);
+      opacity: 0;
+      transform: translateY(20px);
     }
     to {
       opacity: 1;

@@ -31,6 +31,16 @@
   </a>
 </div>
 
+<script>
+  import { $ } from "@/utils/dom-selector"
+
+  const eventInfo = $("#event-info")!
+
+  document.addEventListener("fighter-card-mouse-enter", (event: Event) => {
+    console.log(event.detail.id)
+  })
+</script>
+
 <style>
   .event-info {
     /* visibility: hidden; */
@@ -95,15 +105,15 @@
   }
 
   .slide-fade-in:nth-child(1) {
-    animation-delay: 300ms;
+    animation-delay: 400ms;
   }
 
   .slide-fade-in:nth-child(2) {
-    animation-delay: 450ms;
+    animation-delay: 600ms;
   }
 
   .slide-fade-in:nth-child(3) {
-    animation-delay: 550ms;
+    animation-delay: 800ms;
   }
 
   @keyframes fade-in {

@@ -10,8 +10,8 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.5.0",
-    "@astrojs/vercel": "^8.2.5",
-    "astro": "^5.12.1",
+    "@astrojs/vercel": "^8.2.6",
+    "astro": "^5.13.2",
     "embla-carousel": "^8.6.0"
   },
   "devDependencies": {
