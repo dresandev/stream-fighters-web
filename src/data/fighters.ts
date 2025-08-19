@@ -1,7 +1,7 @@
 import type { Fighter } from "@/types/fighters"
-import { getMobileFighters } from "@/helpers/get-mobile-fighters"
+import { getMobileVersus } from "@/helpers/get-mobile-versus"
 
-export const desktopFighters: Fighter[] = [
+export const fighters: Fighter[] = [
   {
     id: "thenino",
     versusId: "byking",
@@ -21,16 +21,10 @@ export const desktopFighters: Fighter[] = [
     thumbnailImage: "/images/fighters/thumbnails/shelao.png",
   },
   {
-    id: "jh-de-la-cruz",
-    versusId: "cristorata",
-    name: "JH de la Cruz",
-    thumbnailImage: "/images/fighters/thumbnails/jh-de-la-cruz.png",
-  },
-  {
-    id: "cristorata",
-    versusId: "jh-de-la-cruz",
-    name: "Cristorata",
-    thumbnailImage: "/images/fighters/thumbnails/cristorata.png",
+    id: "andrea-valdiri",
+    versusId: "yina-calderon",
+    name: "Andrea Valdiri",
+    thumbnailImage: "/images/fighters/thumbnails/andrea-valdiri.png",
   },
   {
     id: "belosmaki",
@@ -57,28 +51,22 @@ export const desktopFighters: Fighter[] = [
     thumbnailImage: "/images/fighters/thumbnails/karina-garcia.png",
   },
   {
+    id: "jh-de-la-cruz",
+    versusId: "cristorata",
+    name: "JH de la Cruz",
+    thumbnailImage: "/images/fighters/thumbnails/jh-de-la-cruz.png",
+  },
+  {
     id: "yina-calderon",
     versusId: "andrea-valdiri",
     name: "Yina Calderón",
     thumbnailImage: "/images/fighters/thumbnails/yina-calderon.png",
   },
   {
-    id: "westcol",
-    versusId: "incognito",
-    name: "WestCol?",
-    thumbnailImage: "/images/fighters/thumbnails/westcol.png",
-  },
-  {
-    id: "incognito",
-    versusId: "westcol",
-    name: "Incognito",
-    thumbnailImage: "/images/fighters/thumbnails/incognito.png",
-  },
-  {
-    id: "andrea-valdiri",
-    versusId: "yina-calderon",
-    name: "Andrea Valdiri",
-    thumbnailImage: "/images/fighters/thumbnails/andrea-valdiri.png",
+    id: "cristorata",
+    versusId: "jh-de-la-cruz",
+    name: "Cristorata",
+    thumbnailImage: "/images/fighters/thumbnails/cristorata.png",
   },
   {
     id: "karely-ruiz",
@@ -88,4 +76,19 @@ export const desktopFighters: Fighter[] = [
   },
 ]
 
-export const mobileFighters = getMobileFighters(desktopFighters)
+const mobileOrder = [
+  "andrea-valdiri",
+  "yina-calderon",
+  "thenino",
+  "byking",
+  "milica",
+  "may-osorio",
+  "shelao",
+  "belosmaki",
+  "karina-garcia",
+  "karely-ruiz",
+  "jh-de-la-cruz",
+  "cristorata",
+]
+
+export const mobileVersus = getMobileVersus(mobileOrder, fighters)

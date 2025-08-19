@@ -1,5 +1,5 @@
 ---
-import { mobileFighters } from "@/data/fighters"
+import { mobileVersus } from "@/data/fighters"
 import Carousel from "@/components/ui/carousel.astro"
 import Slide from "@/components/ui/slide.astro"
 import FighterSelectorCard from "@/components/fighter-selector-card.astro"
@@ -9,11 +9,11 @@ import Vs from "@/components/vs.astro"
 <div class="fighter-selector-mobile">
   <Carousel>
     {
-      mobileFighters.map(([fighterData1, fighterData2]) => (
+      mobileVersus.map(([fighter1Data, fighter2Data]) => (
         <Slide class="slide">
-          <FighterSelectorCard class="fighter-selector-card" isMobile {...fighterData1} />
+          <FighterSelectorCard class="fighter-selector-card" isMobile {...fighter1Data} />
           <Vs class="vs" />
-          <FighterSelectorCard class="fighter-selector-card" isMobile {...fighterData2} />
+          <FighterSelectorCard class="fighter-selector-card" isMobile {...fighter2Data} />
         </Slide>
       ))
     }

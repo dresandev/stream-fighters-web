@@ -121,16 +121,14 @@ const {
 
     const dispatchFighterCardMouseEnterEvent = () => {
       const event = new CustomEvent("fighter-card-mouse-enter", {
-        bubbles: true,
-        composed: true,
         detail: { id: $card.getAttribute("data-id") },
       })
-      $card.dispatchEvent(event)
+      document.dispatchEvent(event)
     }
 
     const dispatchFighterCardMouseLeaveEvent = () => {
       const event = new CustomEvent("fighter-card-mouse-leave")
-      $card.dispatchEvent(event)
+      document.dispatchEvent(event)
     }
 
     const handleMouseEnter = () => {
@@ -179,8 +177,9 @@ const {
     transition-timing-function: ease-in;
   }
 
-  .fighter-card.slide-fade-in {
-    /* animation: slide-fade-in 600ms ease-out forwards; */
+  .slide-fade-in {
+    opacity: 0;
+    animation: slide-fade-in 600ms ease-out forwards;
   }
 
   .fighter-card-content {
@@ -192,7 +191,9 @@ const {
 
   .fighter-image {
     position: relative;
-    block-size: auto;
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
     transition: transform 150ms ease-out;
   }
 
@@ -203,8 +204,7 @@ const {
 
   @keyframes slide-fade-in {
     from {
-      opacity: 0;
-      transform: translateY(20px);
+      transform: translateY(30px);
     }
     to {
       opacity: 1;

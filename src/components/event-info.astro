@@ -1,8 +1,8 @@
 <div id="event-info" class="event-info">
-  <div class="logo-wrapper">
+  <div class="logo-wrapper slide-fade-in">
     <div class="logo-shadow"></div>
     <img
-      class="logo slide-fade-in"
+      class="logo"
       src="/images/logos/stream-fighters-4-full-logo.png"
       alt="Logo de Stream fighters 4"
       width="350"
@@ -25,19 +25,30 @@
     href="https://kick.com/westcol"
     target="_blank"
     rel="noopener noreferrer"
-    title="Disfruta del evento en vivo por el canal de Kick de Westcol"
+    title="Disfruta del evento en vivo por el canal de Westcol en Kick"
   >
-    Kick Westcol
+    kick.com/westcol
   </a>
 </div>
 
 <script>
-  import { $ } from "@/utils/dom-selector"
+  import { $, $$ } from "@/utils/dom-selector"
 
-  const eventInfo = $("#event-info")!
+  const $eventInfo = $("#event-info")!
+  const $eventInfoElements = $$("#event-info .slide-fade-in")
 
   document.addEventListener("fighter-card-mouse-enter", (event: Event) => {
-    console.log(event.detail.id)
+    $eventInfo.classList.add("hide")
+    $eventInfoElements.forEach(($eventInfoElement) => {
+      $eventInfoElement.classList.remove("slide-fade-in")
+    })
+  })
+
+  document.addEventListener("fighter-card-mouse-leave", (event: Event) => {
+    $eventInfo.classList.remove("hide")
+    $eventInfoElements.forEach(($eventInfoElement) => {
+      $eventInfoElement.classList.add("slide-fade-in")
+    })
   })
 </script>
 
@@ -48,6 +59,10 @@
     padding-block-start: 42px;
   }
 
+  .hide {
+    visibility: hidden;
+  }
+
   .logo-wrapper {
     position: relative;
     inline-size: fit-content;
@@ -56,6 +71,7 @@
 
   .logo-shadow {
     position: absolute;
+    z-index: -1;
     inset: -12px;
     background: radial-gradient(circle at center, hsl(0 94% 25% / 0.4) 0%, transparent 100%);
     filter: blur(8px);
@@ -101,19 +117,19 @@
 
   .slide-fade-in {
     opacity: 0;
-    animation: fade-in 450ms forwards 1s;
+    animation: fade-in 450ms forwards;
   }
 
-  .slide-fade-in:nth-child(1) {
+  /* .slide-fade-in:nth-child(1) {
     animation-delay: 400ms;
-  }
+  } */
 
   .slide-fade-in:nth-child(2) {
-    animation-delay: 600ms;
+    animation-delay: 300ms;
   }
 
   .slide-fade-in:nth-child(3) {
-    animation-delay: 800ms;
+    animation-delay: 500ms;
   }
 
   @keyframes fade-in {

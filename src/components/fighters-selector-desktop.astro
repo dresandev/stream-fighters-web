@@ -1,11 +1,11 @@
 ---
 import FighterSelectorCard from "@/components/fighter-selector-card.astro"
-import { desktopFighters } from "@/data/fighters"
+import { fighters } from "@/data/fighters"
 ---
 
 <div class="fighter-selector-desktop">
   {
-    desktopFighters.map((data) => (
+    fighters.map((data) => (
       <div style={{ "--grid-area": data.id }} class="fighter-card-wrapper">
         <FighterSelectorCard {...data} />
       </div>
@@ -17,9 +17,15 @@ import { desktopFighters } from "@/data/fighters"
   .fighter-selector-desktop {
     display: grid;
     grid-template-areas:
-      "thenino milica shelao jh-de-la-cruz cristorata belosmaki may-osorio byking"
-      "empty1 karina-garcia yina-calderon westcol incognito andrea-valdiri karely-ruiz empty2";
-    gap: clamp(0.813rem, 0.688rem + 0.26vw, 1rem);
+      "thenino milica shelao andrea-valdiri belosmaki may-osorio byking"
+      "empty1 karina-garcia jh-de-la-cruz yina-calderon cristorata karely-ruiz empty2";
+    gap: clamp(0.813rem, 0.604rem + 0.434vw, 1.125rem);
+  }
+
+  .fighter-card-wrapper {
+    grid-area: var(--grid-area);
+    inline-size: clamp(5.625rem, 1.478rem + 8.627vi, 7rem);
+    transition: opacity 150ms;
   }
 
   .fighter-selector-desktop:has(:hover, :focus-visible)
@@ -28,19 +34,9 @@ import { desktopFighters } from "@/data/fighters"
     opacity: 0.6;
   }
 
-  .fighter-card-wrapper {
-    grid-area: var(--grid-area);
-    inline-size: clamp(5.625rem, 5.042rem + 1.215vw, 6.5rem);
-    transition: opacity 150ms;
-    animation: slide-fade-in 600ms ease-out;
-  }
-
-  @media screen and (max-width: 885px) {
-    .fighter-selector-desktop {
-      grid-template-areas:
-        "milica shelao jh-de-la-cruz yina-calderon cristorata belosmaki may-osorio"
-        "thenino karina-garcia westcol andrea-valdiri incognito karely-ruiz byking";
-    }
+  .fighter-card-wrapper.disable {
+    pointer-events: none;
+    opacity: 0.6;
   }
 
   @media screen and (max-width: 768px) {
