@@ -1,4 +1,5 @@
 ---
+import { fighters, mobileVersus } from "@/data/fighters"
 import Layout from "@/layouts/layout.astro"
 import Background from "@/components/background.astro"
 import EventInfo from "@/components/event-info.astro"
@@ -10,7 +11,7 @@ const title =
   "Stream Fighters 4 – Evento de boxeo creado por WestCol con streamers y creadores de contenido"
 const description =
   "El evento de boxeo amateur y música más grande de Latinoamérica, creado y presentado por WestCol. Explora los combates, conoce a los peleadores y haz tus predicciones."
-const canonical = "https://stream-fighters-web.vercel.app"
+const canonical = "https://streamfighters4.vercel.app/"
 ---
 
 <Layout title={title} description={description} canonical={canonical}>
@@ -18,10 +19,10 @@ const canonical = "https://stream-fighters-web.vercel.app"
     <Background />
     <EventInfo />
     <div class="fighter-selector-wrapper">
-      <SelectedFighter />
-      <FightersSelectorDesktop />
+      <SelectedFighter fighters={fighters} />
+      <FightersSelectorDesktop fighters={fighters} />
     </div>
-    <FightersSelectorMobile />
+    <FightersSelectorMobile mobileVersus={mobileVersus} />
   </section>
 </Layout>
 
