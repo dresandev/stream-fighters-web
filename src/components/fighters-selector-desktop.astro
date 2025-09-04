@@ -1,6 +1,12 @@
 ---
+import type { Fighter } from "@/types/fighters"
 import FighterSelectorCard from "@/components/fighter-selector-card.astro"
-import { fighters } from "@/data/fighters"
+
+interface Props {
+  fighters: Fighter[]
+}
+
+const { fighters } = Astro.props
 ---
 
 <div class="fighter-selector-desktop">
@@ -25,18 +31,13 @@ import { fighters } from "@/data/fighters"
   .fighter-card-wrapper {
     grid-area: var(--grid-area);
     inline-size: clamp(5.625rem, 1.478rem + 8.627vi, 7rem);
-    transition: opacity 150ms;
+    transition: opacity 250ms;
   }
 
   .fighter-selector-desktop:has(:hover, :focus-visible)
     .fighter-card-wrapper:not(:has(:hover, :focus-visible, [data-is-versus="1"])) {
-    filter: grayscale(0.7);
-    opacity: 0.6;
-  }
-
-  .fighter-card-wrapper.disable {
-    pointer-events: none;
-    opacity: 0.6;
+    filter: grayscale(1);
+    opacity: 0.9;
   }
 
   @media screen and (max-width: 768px) {

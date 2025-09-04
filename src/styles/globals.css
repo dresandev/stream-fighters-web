@@ -35,3 +35,7 @@ body {
   overflow: hidden;
   overscroll-behavior: contain;
 }
+
+.hidden {
+  visibility: hidden;
+}

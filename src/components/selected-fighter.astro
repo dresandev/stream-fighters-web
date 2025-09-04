@@ -1,36 +1,148 @@
 ---
 import Vs from "@/components/vs.astro"
+import type { Fighter } from "@/types/fighters"
+
+interface Props {
+  fighters: Omit<Fighter, "thumbnailImage">[]
+}
+
+const { fighters } = Astro.props
 ---
 
-<div class="selected-fighter-wrapper">
-  <img class="fighter-image selected" src="/images/fighters/full/may.png" alt="" />
-  <div class="name-badge">May Osorio</div>
-  <img class="fighter-image" src="/images/fighters/full/milica.png" alt="" />
-  <div class="name-badge">Milica</div>
+<div id="selected-fighter-wrapper" class="selected-fighter-wrapper hidden">
+  {
+    fighters.map(({ id, versusId, fullImage, name }) => (
+      <img
+        data-id={id}
+        data-fighter-name={name}
+        data-versus-id={versusId}
+        class="fighter-image"
+        src={fullImage}
+        alt={`Imagen completa del/a peleador/a ${name}`}
+        height={600}
+        loading="lazy"
+        decoding="async"
+        fetchpriority="low"
+      />
+    ))
+  }
+
+  <div class="fighter-name-badge" data-corner="red"></div>
+  <div class="fighter-name-badge" data-corner="blue"></div>
+
   <Vs class="vs" />
 </div>
 
+<script>
+  import type { FighterCardMouseEnterEvent } from "@/types/custom-events"
+  import { $ } from "@/utils/dom-selector"
+
+  const $wrapper = $("#selected-fighter-wrapper")!
+  const $fighterImages = [...$wrapper.querySelectorAll<HTMLImageElement>(".fighter-image")]
+  const $redBadge = $wrapper.querySelector<HTMLDivElement>(
+    ".fighter-name-badge[data-corner='red']",
+  )!
+  const $blueBadge = $wrapper.querySelector<HTMLDivElement>(
+    ".fighter-name-badge[data-corner='blue']",
+  )!
+  const $vs = $wrapper.querySelector(".vs")!
+
+  const animateOptions: KeyframeAnimationOptions = {
+    duration: 400,
+    fill: "forwards",
+    easing: "ease-out",
+  }
+
+  const animations: Animation[] = []
+  let $fighterImage: HTMLImageElement | undefined
+  let $vsFighterImage: HTMLImageElement | undefined
+
+  function cancelAnimations() {
+    animations.forEach((animation) => animation.cancel())
+    animations.length = 0
+  }
+
+  document.addEventListener("fighter-card-mouse-enter", (event) => {
+    const { id, versusId } = (event as FighterCardMouseEnterEvent).detail
+    $fighterImage = $fighterImages.find((img) => img.dataset.id === id)
+    $vsFighterImage = $fighterImages.find((img) => img.dataset.id === versusId)
+
+    if (!$fighterImage || !$vsFighterImage) return
+
+    $wrapper.classList.remove("hidden")
+    cancelAnimations()
+    $fighterImages.forEach((img) => img.removeAttribute("data-corner"))
+    $fighterImage.setAttribute("data-corner", "red")
+    $vsFighterImage.setAttribute("data-corner", "blue")
+
+    animations.push(
+      $fighterImage.animate(
+        [
+          { opacity: 0, transform: "translateY(20px)" },
+          { opacity: 1, transform: "translateY(0)" },
+        ],
+        animateOptions,
+      ),
+      $vsFighterImage.animate(
+        [
+          { opacity: 0, transform: "translateY(20px)" },
+          { opacity: 0.9, transform: "translateY(0)" },
+        ],
+        animateOptions,
+      ),
+      $redBadge.animate([{ opacity: 0 }, { opacity: 1 }], { ...animateOptions, delay: 100 }),
+      $blueBadge.animate([{ opacity: 0 }, { opacity: 1 }], { ...animateOptions, delay: 100 }),
+      $vs.animate([{ opacity: 0 }, { opacity: 1 }], { ...animateOptions, delay: 150 }),
+    )
+
+    $redBadge.textContent = $fighterImage.dataset.fighterName || ""
+    $blueBadge.textContent = $vsFighterImage.dataset.fighterName || ""
+  })
+
+  document.addEventListener("fighter-card-mouse-leave", () => {
+    if (!$fighterImage || !$vsFighterImage) return
+
+    cancelAnimations()
+
+    animations.push(
+      $fighterImage.animate([{ opacity: 1 }, { opacity: 0 }], animateOptions),
+      $vsFighterImage.animate([{ opacity: 0.9 }, { opacity: 0 }], animateOptions),
+      $redBadge.animate([{ opacity: 1 }, { opacity: 0 }], animateOptions),
+      $blueBadge.animate([{ opacity: 1 }, { opacity: 0 }], animateOptions),
+      $vs.animate([{ opacity: 1 }, { opacity: 0 }], animateOptions),
+    )
+
+    animations[animations.length - 1].onfinish = () => {
+      document.dispatchEvent(new CustomEvent("show-event-info"))
+      $wrapper.classList.add("hidden")
+    }
+  })
+</script>
+
 <style>
   .selected-fighter-wrapper {
-    visibility: hidden;
     position: absolute;
-    inset-block-end: 200px;
+    inset-block-end: 210px;
     inset-inline: 0;
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-areas: "red-corner blue-corner";
   }
 
   .fighter-image {
+    grid-area: blue-corner;
     block-size: auto;
-    inline-size: auto;
     mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
-    filter: grayscale(0.7);
-    opacity: 0.8;
+    opacity: 0;
   }
 
-  .fighter-image.selected {
-    filter: unset;
-    opacity: 1;
+  .fighter-image[data-corner="red"] {
+    grid-area: red-corner;
+  }
+
+  .fighter-image[data-corner="blue"] {
+    justify-self: self-end;
+    filter: grayscale(1);
+    opacity: 0.9;
   }
 
   .vs {
@@ -38,38 +150,34 @@ import Vs from "@/components/vs.astro"
     inset: 0;
     margin: auto;
     block-size: fit-content;
-    font-size: clamp(2.5rem, 2.045rem + 1.942vw, 4.375rem);
+    font-size: clamp(2.5rem, 2.197rem + 1.294vw, 3.75rem);
+    opacity: 0;
   }
 
-  .name-badge {
+  .fighter-name-badge {
     position: absolute;
-    inset-block-end: clamp(4.063rem, -7.623rem + 24.314vi, 7.938rem);
+    inset-block-end: clamp(3.438rem, -8.127rem + 24.125vw, 7.313rem);
     min-inline-size: 14ch;
-    font-size: clamp(1.625rem, 1.473rem + 0.647vw, 2.25rem);
+    font-size: clamp(1.5rem, 1.379rem + 0.518vw, 2rem);
     font-family: var(--primary-font);
-    line-height: normal;
-    background-image: linear-gradient(
-      var(--gradient-direction),
-      hsl(0 0% 9%) 25%,
-      hsl(0 0% 17%) 80%,
-      hsl(0 0% 26%) 100%
-    );
+    background: linear-gradient(var(--gradient-direction), hsl(0 0% 9%) 25%, hsl(0, 1%, 15%) 100%);
     border-block-end: 3px solid var(--border-color);
+    opacity: 0;
   }
 
-  .fighter-image.selected + .name-badge {
+  .fighter-name-badge[data-corner="red"] {
     --border-color: hsl(359 97% 46%);
     --gradient-direction: to right;
     inset-inline-start: 0;
-    padding: 4px 28px 0 16px;
+    padding: 4px 32px 0 16px;
     clip-path: polygon(0 0, 100% 0%, 90% 100%, 0% 100%);
   }
 
-  .fighter-image:not(.selected) + .name-badge {
-    --border-color: hsl(240 80% 54%);
+  .fighter-name-badge[data-corner="blue"] {
+    --border-color: hsl(240 93% 59%);
     --gradient-direction: to left;
     inset-inline-end: 0;
-    padding: 4px 16px 0 28px;
+    padding: 4px 16px 0 32px;
     clip-path: polygon(0 0, 100% 0%, 100% 100%, 10% 100%);
     text-align: end;
   }
@@ -81,14 +189,13 @@ import Vs from "@/components/vs.astro"
     }
 
     .fighter-image {
-      min-inline-size: 0;
       max-block-size: 450px;
       object-fit: cover;
       aspect-ratio: 1 / 2;
     }
 
-    .name-badge {
-      inset-block-end: 44px;
+    .fighter-name-badge {
+      inset-block-end: 31px;
     }
   }
 </style>

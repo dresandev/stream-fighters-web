@@ -42,6 +42,7 @@ const {
 </a>
 
 <script>
+  import type { FighterCardMouseEnterEventData } from "@/types/custom-events"
   import { $$ } from "@/utils/dom-selector"
   import { getUniqueRandomNumber } from "@/utils/get-unique-random-number"
   import { getRandomNumber } from "@/utils/get-random-number"
@@ -50,19 +51,45 @@ const {
   const $cards = $$("a.fighter-card")
   const NS = "http://www.w3.org/2000/svg"
   const doodlesAmount = 4
+  let eventTimeoutId: ReturnType<typeof setTimeout> | null = null
 
   $cards.forEach(($card, i) => {
     let currentDoodles: SVGElement[] = []
     const $cardContent = $card.querySelector("div.fighter-card-content")!
     const dataIsMobile = $card.getAttribute("data-is-mobile")
     const isMobileCard = Boolean(Number(dataIsMobile))
+    const dataId = $card.getAttribute("data-id")!
+    const dataVersusId = $card.getAttribute("data-versus-id")!
+    let isCardSelected = false
 
     if (!isMobileCard) {
       $card.style.animationDelay = `${i * 0.05}s`
     }
 
+    const dispatchFighterCardMouseEnterEvent = () => {
+      if (eventTimeoutId) {
+        clearTimeout(eventTimeoutId)
+        eventTimeoutId = null
+      }
+
+      const detail: FighterCardMouseEnterEventData = {
+        id: dataId,
+        versusId: dataVersusId,
+      }
+
+      const event = new CustomEvent("fighter-card-mouse-enter", { detail })
+      document.dispatchEvent(event)
+    }
+
+    const dispatchFighterCardMouseLeaveEvent = () => {
+      eventTimeoutId = setTimeout(() => {
+        const event = new CustomEvent("fighter-card-mouse-leave")
+        document.dispatchEvent(event)
+      }, 450)
+    }
+
     const addDoodles = () => {
-      currentDoodles.forEach((d) => d.remove())
+      currentDoodles.forEach(($doodle) => $doodle.remove())
       currentDoodles = []
 
       const getRandomDoodleIndex = getUniqueRandomNumber(0, doodles.length - 1)
@@ -119,27 +146,39 @@ const {
       currentDoodles = []
     }
 
-    const dispatchFighterCardMouseEnterEvent = () => {
-      const event = new CustomEvent("fighter-card-mouse-enter", {
-        detail: { id: $card.getAttribute("data-id") },
+    const setVersusCard = () => {
+      $cards.forEach(($card) => {
+        const currentVersusId = $card.getAttribute("data-id")
+        if (currentVersusId === dataVersusId) {
+          $card.setAttribute("data-is-versus", "1")
+        }
       })
-      document.dispatchEvent(event)
     }
 
-    const dispatchFighterCardMouseLeaveEvent = () => {
-      const event = new CustomEvent("fighter-card-mouse-leave")
-      document.dispatchEvent(event)
+    const removeVersusCard = () => {
+      $cards.forEach((card) => card.removeAttribute("data-is-versus"))
     }
 
     const handleMouseEnter = () => {
       dispatchFighterCardMouseEnterEvent()
       addDoodles()
+      setVersusCard()
     }
 
     const handleMouseLeave = () => {
-      dispatchFighterCardMouseLeaveEvent()
+      if (isMobileCard) isCardSelected = false
+
+      removeVersusCard()
       removeDoodles()
+      dispatchFighterCardMouseLeaveEvent()
     }
+
+    const handleClick = (ev: PointerEvent) => {
+      if (!isCardSelected) ev.preventDefault()
+      isCardSelected = true
+    }
+
+    if (isMobileCard) $card.addEventListener("click", handleClick)
 
     $card.addEventListener("mouseenter", handleMouseEnter)
     $card.addEventListener("focusin", handleMouseEnter)
@@ -150,17 +189,12 @@ const {
 
 <style>
   .fighter-card {
-    --hover-border-background: linear-gradient(hsl(360 86% 46%), hsl(360 86% 26%));
     position: relative;
     display: block;
     padding: 2px;
     background-image: linear-gradient(hsl(0 0% 18%), hsl(0 0% 15%));
     -webkit-tap-highlight-color: transparent;
     aspect-ratio: 45 / 59;
-  }
-
-  .fighter-card[data-is-versus="1"] {
-    --hover-border-background: linear-gradient(hsl(240 80% 54%), hsl(240 80% 45%));
   }
 
   .fighter-card::before {
@@ -173,8 +207,13 @@ const {
   }
 
   .fighter-card:is(:hover, :focus-visible, [data-is-versus="1"])::before {
+    --hover-border-background: linear-gradient(hsl(360 86% 46%), hsl(360 86% 26%));
     opacity: 1;
     transition-timing-function: ease-in;
+  }
+
+  .fighter-card[data-is-versus="1"]::before {
+    --hover-border-background: linear-gradient(hsl(240 93% 59%), hsl(240 65% 41%));
   }
 
   .slide-fade-in {

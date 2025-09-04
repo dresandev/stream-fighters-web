@@ -1,9 +1,15 @@
 ---
-import { mobileVersus } from "@/data/fighters"
+import type { Fighter } from "@/types/fighters"
 import Carousel from "@/components/ui/carousel.astro"
 import Slide from "@/components/ui/slide.astro"
 import FighterSelectorCard from "@/components/fighter-selector-card.astro"
 import Vs from "@/components/vs.astro"
+
+interface Props {
+  mobileVersus: Fighter[][]
+}
+
+const { mobileVersus } = Astro.props
 ---
 
 <div class="fighter-selector-mobile">

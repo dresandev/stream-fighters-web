@@ -3,4 +3,5 @@ export interface Fighter {
   versusId: string
   name: string
   thumbnailImage: string
+  fullImage: string
 }

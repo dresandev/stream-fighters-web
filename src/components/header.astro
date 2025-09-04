@@ -156,12 +156,6 @@ import StarIcon from "@/components/icons/star-icon.astro"
     opacity: 0.6;
   }
 
-  @keyframes blink {
-    50% {
-      opacity: 0.5;
-    }
-  }
-
   @media screen and (max-width: 768px) {
     .header {
       padding-inline: var(--app-padding);
@@ -272,6 +266,12 @@ import StarIcon from "@/components/icons/star-icon.astro"
 
     .link:is(:hover, :focus-visible) > .ticket-icon {
       opacity: 1;
+    }
+  }
+
+  @keyframes blink {
+    50% {
+      opacity: 0.5;
     }
   }
 </style>
