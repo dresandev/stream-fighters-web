@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://stream-fighters-web.vercel.app/sitemap-index.xml
+Sitemap: https://streamfightersweb4.vercel.app/sitemap-index.xml
