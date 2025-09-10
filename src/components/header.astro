@@ -45,16 +45,21 @@ import StarIcon from "@/components/icons/star-icon.astro"
   import { $ } from "@/utils/dom-selector"
 
   const $header = $(".header")!
+  const $mobileButton = $("#menu-mobile-button")!
+  const $mobileMenu = $("#menu")!
 
+  const headerBlockSize = 60
   let lastKnownScrollY = 0
   let ticking = false
 
-  function onScroll() {
+  function handleOnScroll() {
     lastKnownScrollY = window.scrollY
 
     if (!ticking) {
+      const scrolled = lastKnownScrollY > headerBlockSize
+
       requestAnimationFrame(() => {
-        $header.classList.toggle("scrolled", lastKnownScrollY > 100)
+        $header.toggleAttribute("data-scrolled", scrolled)
         ticking = false
       })
 
@@ -62,20 +67,19 @@ import StarIcon from "@/components/icons/star-icon.astro"
     }
   }
 
-  window.addEventListener("scroll", onScroll)
-
-  const $mobileButton = $("#menu-mobile-button")!
-  const $mobileMenu = $("#menu")!
-
-  $mobileButton.addEventListener("click", () => {
-    const currentState = $mobileButton.getAttribute("data-state")
+  function handleToggleMenu() {
+    const currentState = $mobileButton.dataset.state
     const isOpen = currentState === "open"
     const newState = isOpen ? "closed" : "open"
+
     document.body.toggleAttribute("data-scroll-locked", !isOpen)
     $mobileButton.ariaLabel = `${currentState === "open" ? "Cerrar" : "Abrir"} menú`
     $mobileButton.setAttribute("data-state", newState)
     $mobileMenu.setAttribute("data-state", newState)
-  })
+  }
+
+  window.addEventListener("scroll", handleOnScroll)
+  $mobileButton.addEventListener("click", handleToggleMenu)
 </script>
 
 <style>
@@ -94,7 +98,7 @@ import StarIcon from "@/components/icons/star-icon.astro"
     transition-duration: 150ms;
   }
 
-  :global(.header.scrolled) {
+  .header[data-scrolled] {
     --border-color: hsl(0 0% 99% / 0.1);
     background-color: hsl(var(--color-background-hsl) / 0.8);
     backdrop-filter: saturate(180%) blur(5px);
@@ -203,7 +207,7 @@ import StarIcon from "@/components/icons/star-icon.astro"
       display: flex;
       flex-direction: column;
       gap: 16px;
-      block-size: calc(100svh - var(--header-block-size));
+      block-size: calc(100dvh - var(--header-block-size));
       padding: 24px;
       background: url("/images/shapes/form-shape.svg") bottom no-repeat var(--background-color);
       background-size: 100% auto;
