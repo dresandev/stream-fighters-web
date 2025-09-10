@@ -1,0 +1,187 @@
+<div class="wrapper">
+  <canvas id="countdown" class="countdown"></canvas>
+  <div class="labels">
+    <div class="label-wrapper">
+      <span class="label">Días</span>
+    </div>
+    <div class="label-wrapper">
+      <span class="label">Horas</span>
+    </div>
+    <div class="label-wrapper">
+      <span class="label">Minutos</span>
+    </div>
+    <div class="label-wrapper">
+      <span class="label">Segundos</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  const canvas = document.querySelector<HTMLCanvasElement>("#countdown")!
+  const ctx = canvas.getContext("2d")!
+
+  let cellSize: number
+  let cellGap: number
+  let digitGap: number
+  const digitWidth = 5
+  const digitHeight = 7
+
+  const digits = {
+    "0": ["01110", "10001", "10011", "10101", "11001", "10001", "01110"],
+    "1": ["00100", "01100", "00100", "00100", "00100", "00100", "01110"],
+    "2": ["01110", "10001", "00001", "00010", "00100", "01000", "11111"],
+    "3": ["01110", "10001", "00001", "00110", "00001", "10001", "01110"],
+    "4": ["00110", "01010", "10010", "11111", "00010", "00010", "00010"],
+    "5": ["11111", "10000", "11110", "00001", "00001", "10001", "01110"],
+    "6": ["01110", "10001", "10000", "11110", "10001", "10001", "01110"],
+    "7": ["11111", "00001", "00010", "00100", "00100", "00100", "00100"],
+    "8": ["01110", "10001", "10001", "01110", "10001", "10001", "01110"],
+    "9": ["01110", "10001", "10001", "01111", "00001", "10001", "01110"],
+    ":": ["00000", "00000", "00100", "00000", "00100", "00000", "00000"],
+  }
+
+  function applyResponsiveSizes() {
+    const width = window.innerWidth
+
+    if (width >= 800) {
+      cellSize = 8
+      cellGap = 4
+      digitGap = 6
+      canvas.width = 716
+      canvas.height = 80
+    } else if (width >= 600) {
+      cellSize = 6
+      cellGap = 2.5
+      digitGap = 6
+      canvas.width = 525
+      canvas.height = 57
+    } else if (width >= 480) {
+      cellSize = 4.5
+      cellGap = 2
+      digitGap = 6
+      canvas.width = 416
+      canvas.height = 44
+    } else {
+      cellSize = 3.8
+      cellGap = 1.5
+      digitGap = 3
+      canvas.width = 320
+      canvas.height = 36
+    }
+  }
+
+  function drawDigit(x: number, y: number, digit: keyof typeof digits) {
+    const pattern = digits[digit]
+    for (let row = 0; row < digitHeight; row++) {
+      for (let col = 0; col < digitWidth; col++) {
+        const px = x + col * (cellSize + cellGap)
+        const py = y + row * (cellSize + cellGap)
+        ctx.fillStyle = pattern[row][col] === "1" ? "#fff" : "#222"
+        ctx.fillRect(px, py, cellSize, cellSize)
+      }
+    }
+  }
+
+  function drawTime(timeStr: string) {
+    const charWidth = digitWidth * (cellSize + cellGap) + digitGap
+    let offsetX = 0
+    let offsetY = 0
+
+    for (let char of timeStr) {
+      drawDigit(offsetX, offsetY, char as keyof typeof digits)
+      offsetX += charWidth
+    }
+  }
+
+  function updateCountdown() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+    const targetDate = new Date("2025-10-18T00:00:00").getTime()
+    const now = new Date().getTime()
+    const diff = targetDate - now
+
+    if (diff <= 0) {
+      drawTime("000000")
+      return
+    }
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24))
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24)
+    const minutes = Math.floor((diff / (1000 * 60)) % 60)
+    const seconds = Math.floor((diff / 1000) % 60)
+
+    const timeStr =
+      String(days).padStart(2, "0") +
+      ":" +
+      String(hours).padStart(2, "0") +
+      ":" +
+      String(minutes).padStart(2, "0") +
+      ":" +
+      String(seconds).padStart(2, "0")
+
+    drawTime(timeStr)
+  }
+
+  window.addEventListener("resize", () => {
+    applyResponsiveSizes()
+    updateCountdown()
+  })
+
+  applyResponsiveSizes()
+  setInterval(updateCountdown, 1000)
+  updateCountdown()
+</script>
+
+<style>
+  .countdown {
+    image-rendering: pixelated;
+  }
+
+  .wrapper {
+    inline-size: fit-content;
+    margin-inline: auto;
+  }
+
+  .labels {
+    display: flex;
+    justify-content: space-between;
+    padding-block-start: 4px;
+  }
+
+  .label-wrapper {
+    --size: 122px;
+    inline-size: var(--size);
+    position: relative;
+  }
+
+  .label {
+    position: absolute;
+    inset-inline-start: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+
+  @media screen and (max-width: 800px) {
+    .label-wrapper {
+      --size: 89px;
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    .label-wrapper {
+      --size: 70px;
+    }
+
+    .label {
+      font-size: 12px;
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .label-wrapper {
+      --size: 54px;
+    }
+  }
+</style>
