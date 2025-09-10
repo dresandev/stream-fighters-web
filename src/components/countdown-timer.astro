@@ -40,75 +40,77 @@
     ":": ["00000", "00000", "00100", "00000", "00100", "00000", "00000"],
   }
 
+  const MS_PER_SECOND = 1000
+  const MS_PER_MINUTE = MS_PER_SECOND * 60
+  const MS_PER_HOUR = MS_PER_MINUTE * 60
+  const MS_PER_DAY = MS_PER_HOUR * 24
+
+  let digitCache: Record<string, HTMLCanvasElement> = {}
+
+  const breakpoints = [
+    { min: 800, cellSize: 8, cellGap: 4, digitGap: 6, w: 716, h: 80 },
+    { min: 600, cellSize: 6, cellGap: 2.5, digitGap: 6, w: 525, h: 57 },
+    { min: 480, cellSize: 4.5, cellGap: 2, digitGap: 6, w: 416, h: 44 },
+    { min: 0, cellSize: 3.8, cellGap: 1.5, digitGap: 3, w: 320, h: 36 },
+  ]
+
   function applyResponsiveSizes() {
     const width = window.innerWidth
+    const config = breakpoints.find((bp) => width >= bp.min)!
+    cellSize = config.cellSize
+    cellGap = config.cellGap
+    digitGap = config.digitGap
+    canvas.width = config.w
+    canvas.height = config.h
 
-    if (width >= 800) {
-      cellSize = 8
-      cellGap = 4
-      digitGap = 6
-      canvas.width = 716
-      canvas.height = 80
-    } else if (width >= 600) {
-      cellSize = 6
-      cellGap = 2.5
-      digitGap = 6
-      canvas.width = 525
-      canvas.height = 57
-    } else if (width >= 480) {
-      cellSize = 4.5
-      cellGap = 2
-      digitGap = 6
-      canvas.width = 416
-      canvas.height = 44
-    } else {
-      cellSize = 3.8
-      cellGap = 1.5
-      digitGap = 3
-      canvas.width = 320
-      canvas.height = 36
-    }
+    buildDigitCache()
   }
 
-  function drawDigit(x: number, y: number, digit: keyof typeof digits) {
-    const pattern = digits[digit]
-    for (let row = 0; row < digitHeight; row++) {
-      for (let col = 0; col < digitWidth; col++) {
-        const px = x + col * (cellSize + cellGap)
-        const py = y + row * (cellSize + cellGap)
-        ctx.fillStyle = pattern[row][col] === "1" ? "#fff" : "#222"
-        ctx.fillRect(px, py, cellSize, cellSize)
+  function buildDigitCache() {
+    digitCache = {}
+    for (let key in digits) {
+      const pattern = digits[key as keyof typeof digits]
+      const w = digitWidth * (cellSize + cellGap)
+      const h = digitHeight * (cellSize + cellGap)
+      const offscreen = document.createElement("canvas")
+      offscreen.width = w
+      offscreen.height = h
+      const offCtx = offscreen.getContext("2d")!
+
+      for (let row = 0; row < digitHeight; row++) {
+        for (let col = 0; col < digitWidth; col++) {
+          const px = col * (cellSize + cellGap)
+          const py = row * (cellSize + cellGap)
+          offCtx.fillStyle = pattern[row][col] === "1" ? "#fff" : "#222"
+          offCtx.fillRect(px, py, cellSize, cellSize)
+        }
       }
+      digitCache[key] = offscreen
     }
   }
 
   function drawTime(timeStr: string) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
     const charWidth = digitWidth * (cellSize + cellGap) + digitGap
     let offsetX = 0
-    let offsetY = 0
-
     for (let char of timeStr) {
-      drawDigit(offsetX, offsetY, char as keyof typeof digits)
+      ctx.drawImage(digitCache[char], offsetX, 0)
       offsetX += charWidth
     }
   }
 
+  const targetDate = new Date("2025-10-18T00:00:00").getTime()
+  let lastTimeStr = ""
+
   function updateCountdown() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    const now = Date.now()
+    let diff = targetDate - now
+    if (diff <= 0) diff = 0
 
-    const targetDate = new Date("2025-10-18T00:00:00").getTime()
-    const now = new Date().getTime()
-    const diff = targetDate - now
-
-    if (diff <= 0) {
-      drawTime("000000")
-      return
-    }
-
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24))
-    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24)
-    const minutes = Math.floor((diff / (1000 * 60)) % 60)
-    const seconds = Math.floor((diff / 1000) % 60)
+    const days = Math.floor(diff / MS_PER_DAY)
+    const hours = Math.floor((diff % MS_PER_DAY) / MS_PER_HOUR)
+    const minutes = Math.floor((diff % MS_PER_HOUR) / MS_PER_MINUTE)
+    const seconds = Math.floor((diff % MS_PER_MINUTE) / MS_PER_SECOND)
 
     const timeStr =
       String(days).padStart(2, "0") +
@@ -119,17 +121,24 @@
       ":" +
       String(seconds).padStart(2, "0")
 
-    drawTime(timeStr)
+    if (timeStr !== lastTimeStr) {
+      drawTime(timeStr)
+      lastTimeStr = timeStr
+    }
+  }
+
+  function loop() {
+    updateCountdown()
+    requestAnimationFrame(loop)
   }
 
   window.addEventListener("resize", () => {
     applyResponsiveSizes()
-    updateCountdown()
+    lastTimeStr = ""
   })
 
   applyResponsiveSizes()
-  setInterval(updateCountdown, 1000)
-  updateCountdown()
+  loop()
 </script>
 
 <style>
