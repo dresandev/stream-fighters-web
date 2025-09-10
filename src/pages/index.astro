@@ -1,11 +1,8 @@
 ---
-import { fighters, mobileVersus } from "@/data/fighters"
 import Layout from "@/layouts/layout.astro"
-import Background from "@/components/background.astro"
-import EventInfo from "@/components/event-info.astro"
-import SelectedFighter from "@/components/selected-fighter.astro"
-import FightersSelectorDesktop from "@/components/fighters-selector-desktop.astro"
-import FightersSelectorMobile from "@/components/fighters-selector-mobile.astro"
+import CountdownSection from "@/sections/countdown-section.astro"
+import HeroSection from "@/sections/hero-section.astro"
+import PresentationSection from "@/sections/presentation-section.astro"
 
 const title =
   "Stream Fighters 4 – Evento de boxeo creado por WestCol con streamers y creadores de contenido"
@@ -15,48 +12,7 @@ const canonical = "https://streamfighters4.vercel.app/"
 ---
 
 <Layout title={title} description={description} canonical={canonical}>
-  <section id="hero-section" class="hero-section">
-    <Background />
-    <EventInfo />
-    <div class="fighter-selector-wrapper">
-      <SelectedFighter fighters={fighters} />
-      <FightersSelectorDesktop fighters={fighters} />
-    </div>
-    <FightersSelectorMobile mobileVersus={mobileVersus} />
-  </section>
+  <HeroSection />
+  <PresentationSection />
+  <CountdownSection />
 </Layout>
-
-<style>
-  .hero-section {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    row-gap: 143px;
-    min-block-size: 100svh;
-    padding: 42px var(--app-padding);
-  }
-
-  .fighter-selector-wrapper {
-    position: relative;
-    inline-size: fit-content;
-    margin-inline: auto;
-    pointer-events: none;
-  }
-
-  :global(.fighter-selector-wrapper > *) {
-    pointer-events: auto;
-  }
-
-  @media screen and (max-width: 768px) {
-    .hero-section {
-      row-gap: 50px;
-      padding-block: 28px;
-    }
-
-    .fighter-selector-wrapper {
-      position: absolute;
-      inset: 0;
-      inline-size: auto;
-    }
-  }
-</style>

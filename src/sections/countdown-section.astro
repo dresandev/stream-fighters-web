@@ -1,0 +1,22 @@
+---
+import CountdownTimer from "@/components/countdown-timer.astro"
+---
+
+<section class="countdown-section">
+  <h2 class="title">El evento inicia en...</h2>
+  <CountdownTimer />
+</section>
+
+<style>
+  .countdown-section {
+    padding-block: clamp(6.25rem, 5.492rem + 3.236vw, 9.375rem);
+  }
+
+  .title {
+    font-size: clamp(2.25rem, 2.159rem + 0.388vw, 2.625rem);
+    font-family: var(--primary-font);
+    letter-spacing: 1px;
+    text-align: center;
+    padding-block-end: 24px;
+  }
+</style>
