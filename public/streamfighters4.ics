@@ -1,0 +1,13 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//AnandChowdhary//calendar-link//EN
+BEGIN:VEVENT
+DTSTART:20251018T210000Z
+DTEND:20251019T040000Z
+DTSTAMP:20250911T042443Z
+SUMMARY:Stream Fihters 5
+DESCRIPTION:🔥 ¡Llega Stream Fighters! 🔥\n📅 Fecha: 18 de octubre\n📍 Lugar: Coliseo Medplus, Bogotá, Colombia\n\nEl ring se enciende con el enfrentamiento más esperado entre streamers, creadores de contenido y leyendas digitales. 🥊⚡\n\n✨ ¿Qué te espera?\n🏆 Batallas únicas cargadas de emoción.\n🎤 Shows en vivo que harán vibrar a todos.\n🎮 Experiencias interactivas y sorpresas para la comunidad.\n\nSigue cada golpe y cada grito en streaming en directo y únete a la conversación con el hashtag #StreamFighters. 🚀\n\n🔗 Más información: https://streamfighters4.vercel.app/
+LOCATION:Coliseo Medplus, Bogotá, Colombia
+UID:32523
+END:VEVENT
+END:VCALENDAR

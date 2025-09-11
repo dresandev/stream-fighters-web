@@ -1,10 +1,12 @@
 ---
 import CountdownTimer from "@/components/countdown-timer.astro"
+import ScheduleEventLink from "@/components/schedule-event-link.astro"
 ---
 
 <section class="countdown-section">
   <h2 class="title">El evento inicia en...</h2>
   <CountdownTimer />
+  <ScheduleEventLink class="schedule-event-link" />
 </section>
 
 <style>
@@ -18,5 +20,11 @@ import CountdownTimer from "@/components/countdown-timer.astro"
     letter-spacing: 1px;
     text-align: center;
     padding-block-end: 24px;
+  }
+
+  .schedule-event-link {
+    inline-size: max-content;
+    margin-inline: auto;
+    margin-block-start: 16px;
   }
 </style>

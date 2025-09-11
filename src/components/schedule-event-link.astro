@@ -1,0 +1,52 @@
+---
+import CalendarIcon from "@/components/icons/calendar-icon.astro"
+
+interface Props {
+  class?: string
+  url?: string
+}
+
+const { url = "/streamfighters4.ics", class: className, ...props } = Astro.props
+---
+
+<a class={className} href={url} rel="noreferrer noopener" {...props}>
+  Agéndar Stream Fighters 4
+  <CalendarIcon />
+</a>
+
+<style>
+  a {
+    display: flex;
+    align-items: center;
+    column-gap: 4px;
+    padding: 8px 24px;
+    color: hsl(0 0% 70%);
+    background: linear-gradient(to right, hsl(0 0% 70%) 0, hsl(0 0% 100%) 10%, hsl(0 0% 70%) 20%);
+    background-position: 0;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-text-size-adjust: none;
+    font-size: clamp(1rem, 0.97rem + 0.129vw, 1.125rem);
+    font-weight: 600;
+    white-space: nowrap;
+    animation: shine 3s infinite linear forwards;
+    transition: transform 250ms;
+    transform-origin: bottom;
+  }
+
+  a:hover {
+    transform: scale(1.05);
+  }
+
+  @keyframes shine {
+    0% {
+      background-position: 0;
+    }
+    60% {
+      background-position: 240px;
+    }
+    100% {
+      background-position: 240px;
+    }
+  }
+</style>
