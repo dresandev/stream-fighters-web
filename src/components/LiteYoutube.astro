@@ -343,13 +343,25 @@ const { videoId, title, backgroundImage, withShadowImage } = Astro.props
       border-radius: 50%;
       background-color: hsl(0 0% 15% / 0.8);
       box-sizing: content-box;
-      transform: scale(0);
-      transition: transform 250ms;
+      /* transform: scale(0);
+      transition: transform 250ms; */
     }
-
+/* 
     .lty-playbtn:hover > .play-icon,
     lite-youtube:focus-visible .play-icon {
       transform: scale(1);
+    } */
+
+    @media (hover: hover) {
+      .play-icon {
+        transform: scale(0);
+        transition: transform 250ms;
+      }
+
+      .lty-playbtn:hover > .play-icon,
+      lite-youtube:focus-visible .play-icon {
+        transform: scale(1);
+      }
     }
 
     lite-youtube.lyt-activated {
