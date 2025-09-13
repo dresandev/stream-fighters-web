@@ -1,0 +1,28 @@
+---
+import LiteYoutube from "@/components/LiteYoutube.astro"
+---
+
+<section>
+  <h2 class="title">Presentación oficial de Stream Fighters 4</h2>
+  <LiteYoutube
+    videoId="ab7iAq7P7b0"
+    backgroundImage="/images/thumbnails/official-presentation-thumbnail.webp"
+    withShadowImage
+  />
+</section>
+
+<style>
+  section {
+    padding: clamp(6.25rem, 5.492rem + 3.236vw, 9.375rem) var(--app-padding);
+    max-inline-size: 900px;
+    margin-inline: auto;
+  }
+
+  .title {
+    padding-block-end: 32px;
+    font-size: clamp(2.25rem, 2.159rem + 0.388vw, 2.625rem);
+    font-family: var(--primary-font);
+    line-height: normal;
+    text-align: center;
+  }
+</style>
