@@ -321,6 +321,18 @@ const { videoId, title, backgroundImage, withShadowImage } = Astro.props
       border-radius: 12px;
     }
 
+    lite-youtube::after {
+      content: "";
+      margin: auto;
+      width: 100px;
+      height: 100px;
+      position: absolute;
+      background: rgba(0, 0, 0, 0.8);
+      filter: blur(50px);
+      inset: 0;
+      z-index: -1;
+    }
+
     lite-youtube > iframe {
       display: block;
       inline-size: 100%;
@@ -343,14 +355,7 @@ const { videoId, title, backgroundImage, withShadowImage } = Astro.props
       border-radius: 50%;
       background-color: hsl(0 0% 15% / 0.8);
       box-sizing: content-box;
-      /* transform: scale(0);
-      transition: transform 250ms; */
     }
-/* 
-    .lty-playbtn:hover > .play-icon,
-    lite-youtube:focus-visible .play-icon {
-      transform: scale(1);
-    } */
 
     @media (hover: hover) {
       .play-icon {
