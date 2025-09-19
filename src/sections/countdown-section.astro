@@ -1,16 +1,18 @@
 ---
 import CountdownTimer from "@/components/countdown-timer.astro"
 import ScheduleEventLink from "@/components/schedule-event-link.astro"
+
+const targetDate = "2025-10-18T00:00:00"
 ---
 
-<section class="countdown-section">
+<section>
   <h2 class="title">El evento inicia en...</h2>
-  <CountdownTimer />
+  <CountdownTimer targetDate={targetDate} />
   <ScheduleEventLink class="schedule-event-link" />
 </section>
 
 <style>
-  .countdown-section {
+  section {
     padding-block: clamp(6.25rem, 5.492rem + 3.236vw, 9.375rem);
   }
 
@@ -19,7 +21,7 @@ import ScheduleEventLink from "@/components/schedule-event-link.astro"
     font-family: var(--primary-font);
     letter-spacing: 1px;
     text-align: center;
-    padding-block-end: 24px;
+    padding-block-end: 42px;
   }
 
   .schedule-event-link {

@@ -1,5 +1,13 @@
+---
+interface Props {
+  targetDate: string
+}
+
+const { targetDate } = Astro.props
+---
+
 <div class="wrapper">
-  <canvas id="countdown" class="countdown"></canvas>
+  <canvas id="countdown" data-target-date={targetDate} class="countdown"></canvas>
   <div class="labels">
     <div class="label-wrapper">
       <span class="label">Días</span>
@@ -19,6 +27,14 @@
 <script>
   const canvas = document.querySelector<HTMLCanvasElement>("#countdown")!
   const ctx = canvas.getContext("2d")!
+  const targetDateAttr = canvas.dataset.targetDate
+
+  if (!targetDateAttr) {
+    throw new Error("Target date is required")
+  }
+
+  const targetDate = new Date(targetDateAttr).getTime()
+  let lastTimeStr = ""
 
   let cellSize: number
   let cellGap: number
@@ -98,9 +114,6 @@
       offsetX += charWidth
     }
   }
-
-  const targetDate = new Date("2025-10-18T00:00:00").getTime()
-  let lastTimeStr = ""
 
   function updateCountdown() {
     const now = Date.now()
