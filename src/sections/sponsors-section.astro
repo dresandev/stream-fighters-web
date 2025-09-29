@@ -1,21 +1,37 @@
 ---
-import SponsorsWrapper from "@/components/sponsors-wrapper.astro"
 import { sponsors } from "@/data/sponsors"
-
-const { officialSponsors, supportedBy, createdBy, organizedBy } = sponsors
 ---
 
 <section>
-  <h2 class="title">Patrocionadores y colaboradores</h2>
-  <SponsorsWrapper sponsors={officialSponsors} />
-  <SponsorsWrapper sponsors={supportedBy} />
-  <SponsorsWrapper sponsors={createdBy} />
-  <SponsorsWrapper sponsors={organizedBy} />
+  <h2 class="title">Patrocionadores del evento</h2>
+  <div class="sponsors-wrapper">
+    {
+      sponsors.map(({ name, logo, url }) => (
+        <a
+          class="sponsor-link"
+          href={url}
+          aria-label={`Visitar la web del patrocinador ${name}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            class="sponsor-image"
+            src={logo}
+            alt={`Logo de ${name}`}
+            height={35}
+            loading="lazy"
+          />
+        </a>
+      ))
+    }
+  </div>
 </section>
 
 <style>
   section {
+    inline-size: fit-content;
     padding: clamp(6.25rem, 5.492rem + 3.236vw, 9.375rem) var(--app-padding);
+    margin-inline: auto;
   }
 
   .title {
@@ -24,5 +40,33 @@ const { officialSponsors, supportedBy, createdBy, organizedBy } = sponsors
     font-size: clamp(2.25rem, 2.159rem + 0.388vw, 2.625rem);
     letter-spacing: 1px;
     padding-block-end: 42px;
+  }
+
+  .sponsors-wrapper {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-inline-size: 560px;
+    padding-block-end: 62px;
+  }
+
+  .sponsors-wrapper:last-of-type {
+    padding-block-end: 0;
+  }
+
+  .sponsor-link {
+    padding: 8px;
+  }
+
+  @media (hover: hover) {
+    .sponsor-image {
+      transition: transform 200ms;
+      transform-origin: bottom;
+    }
+
+    .sponsor-image:hover {
+      transform: scale(1.1);
+    }
   }
 </style>

@@ -1,0 +1,78 @@
+---
+import { socialMedia } from "@/data/social-media"
+import ArrowUpRightIcon from "@/components/icons/arrow-up-right-icon.astro"
+---
+
+<footer>
+  <div class="content">
+    <p class="description">
+      Web <em>no oficial</em> de Stream Fighters 4
+    </p>
+    <div class="social-media-links">
+      {
+        socialMedia.map(({ name, url, label }) => (
+          <a aria-label={label} class="link" href={url} target="_blank" rel="noopener noreferrer">
+            {name}
+            <ArrowUpRightIcon class="arrow-icon" />
+          </a>
+        ))
+      }
+    </div>
+  </div>
+  <div class="background"></div>
+</footer>
+
+<style>
+  .content {
+    --padding-block: 150px 80px;
+    padding-block: var(--padding-block);
+    padding-inline: var(--app-padding);
+    inline-size: fit-content;
+    margin-inline: auto;
+  }
+
+  .description {
+    font-size: 24px;
+    text-align: center;
+    padding-block-end: 24px;
+  }
+
+  .social-media-links {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+  }
+
+  .link {
+    display: inline-flex;
+    color: rgb(157, 157, 157);
+    font-weight: 500;
+    font-size: 20px;
+    transition: color 250ms;
+  }
+
+  .link:hover {
+    color: var(--color-text);
+  }
+
+  .link .arrow-icon {
+    --size: 0.65em;
+    inline-size: var(--size);
+    block-size: var(--size);
+  }
+
+  .background {
+    --block-size: 300px;
+    block-size: var(--block-size);
+    background: center / cover no-repeat url(/images/backgrounds/footer-mobile.avif);
+    mask-image: linear-gradient(to top, black 15%, transparent);
+    opacity: 0.4;
+  }
+
+  @media screen and (min-width: 768px) {
+    .background {
+      --block-size: 380px;
+      background-image: url(/images/backgrounds/footer-desktop.avif);
+    }
+  }
+</style>

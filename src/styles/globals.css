@@ -1,5 +1,6 @@
 :root {
   --background-color-hsl: 0 0% 2%;
+  --scrollbar-color-hsl: 0 14% 95%;
 
   --background-color: hsl(0 0% 2%);
   --text-color: hsl(0 14% 95%);
@@ -9,7 +10,7 @@
   --app-padding: 24px;
 
   color-scheme: dark;
-  scrollbar-color: hsl(0 14% 95%) hsl(0 0% 2%);
+  scrollbar-color: var(--scrollbar-color-hsl / 0.6) hsl(0 0% 2%);
   scrollbar-width: thin;
   scrollbar-gutter: stable;
 }
@@ -39,4 +40,10 @@ body {
 
 .hidden {
   visibility: hidden;
+}
+
+@media (hover: hover) {
+  :root {
+    scrollbar-color: hsl(var(--scrollbar-color-hsl)) hsl(0 0% 2%);
+  }
 }
