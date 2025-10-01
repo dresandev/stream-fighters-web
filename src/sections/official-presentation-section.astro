@@ -1,10 +1,13 @@
 ---
 import LiteYoutube from "@/components/lite-youtube.astro"
+
+const title = "Presentación oficial de Stream Fighters 4"
 ---
 
 <section>
-  <h2 class="title">Presentación oficial de Stream Fighters 4</h2>
+  <h2 class="title">{title}</h2>
   <LiteYoutube
+    title={title}
     videoId="ab7iAq7P7b0"
     backgroundImage="/images/thumbnails/official-presentation-thumbnail.webp"
     withShadowImage
@@ -14,7 +17,7 @@ import LiteYoutube from "@/components/lite-youtube.astro"
 <style>
   section {
     padding: clamp(6.25rem, 5.492rem + 3.236vw, 9.375rem) var(--app-padding);
-    max-inline-size: 900px;
+    max-inline-size: 850px;
     margin-inline: auto;
   }
 
