@@ -8,6 +8,7 @@
   --primary-font: "Bebas Neue", sans-serif;
   --secondary-font: "Roboto Flex", sans-serif;
   --app-padding: 24px;
+  --header-block-size: 60px;
 
   color-scheme: dark;
   scrollbar-color: var(--scrollbar-color-hsl / 0.6) hsl(0 0% 2%);
@@ -16,10 +17,17 @@
 }
 
 body {
+  display: flex;
+  flex-direction: column;
+  min-block-size: 100svh;
   font-family: var(--secondary-font);
   color: var(--text-color);
   background-color: var(--background-color);
   overflow-x: hidden;
+}
+
+main {
+  flex: 1;
 }
 
 ::selection {
