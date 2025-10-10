@@ -1,27 +1,81 @@
 ---
 import Layout from "@/layouts/layout.astro"
 
-const title = ""
-const description = ""
+const title = "Stream Fighters 4 - 404"
+const description =
+  "Página no encontrada en Stream Fighters 4. Regresa al inicio para seguir disfrutando del evento de boxeo de WestCol."
 const canonical = "https://streamfighters4.vercel.app/404/"
 ---
 
 <Layout title={title} description={description} canonical={canonical}>
-  <h1>
-    <span>404</span>
-    <span>Tus guantes están listos</span>
-  </h1>
+  <div class="wrapper">
+    <h1>
+      <span>
+        <span class="text-404">4<span class="visible-hidden">0</span>4</span>
+        <img class="gloves-image" src="/images/boxing-gloves.webp" alt="" width={300} />
+      </span>
+      <span>Tus guantes están listos</span>
+    </h1>
+
+    <a class="home-link" href="/">Regresar al ring</a>
+  </div>
 </Layout>
 
 <style>
-  h1 {
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    block-size: calc(100svh - var(--header-block-size) * 2);
     text-align: center;
   }
 
+  h1 {
+    padding-block-end: 24px;
+  }
+
   h1 > span:first-child {
+    position: relative;
     display: block;
-    font-size: 200px;
-    letter-spacing: 2px;
+    padding-block-end: 10px;
+    font-size: clamp(9.375rem, 7.858rem + 6.472vw, 15.625rem);
     line-height: normal;
+  }
+
+  h1 > span:last-child {
+    font-size: clamp(1.5rem, 1.379rem + 0.518vw, 2rem);
+  }
+
+  .text-404 {
+    letter-spacing: clamp(1.25rem, 0.977rem + 1.165vw, 2.375rem);
+  }
+
+  .visible-hidden {
+    color: var(--background-color);
+  }
+
+  .gloves-image {
+    position: absolute;
+    inset: 0;
+    inline-size: 1.8ch;
+    block-size: auto;
+    margin: auto;
+    user-select: none;
+  }
+
+  .home-link {
+    display: inline-block;
+    background-color: var(--text-color);
+    color: var(--background-color);
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 18px;
+    transition: opacity 250ms;
+  }
+
+  .home-link:hover {
+    opacity: 0.6;
   }
 </style>
