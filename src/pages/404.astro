@@ -1,5 +1,6 @@
 ---
 import Layout from "@/layouts/layout.astro"
+import Background from "@/components/background.astro"
 
 const title = "Stream Fighters 4 - 404"
 const description =
@@ -9,6 +10,7 @@ const canonical = "https://streamfighters4.vercel.app/404/"
 
 <Layout title={title} description={description} canonical={canonical}>
   <div class="wrapper">
+    <Background />
     <h1>
       <span>
         <span class="text-404">4<span class="visible-hidden">0</span>4</span>
@@ -27,12 +29,13 @@ const canonical = "https://streamfighters4.vercel.app/404/"
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    block-size: calc(100svh - var(--header-block-size) * 2);
+    block-size: calc(100svh - var(--header-block-size));
     text-align: center;
   }
 
   h1 {
     padding-block-end: 24px;
+    margin-block-start: calc(var(--header-block-size) * -1);
   }
 
   h1 > span:first-child {
@@ -45,6 +48,8 @@ const canonical = "https://streamfighters4.vercel.app/404/"
 
   h1 > span:last-child {
     font-size: clamp(1.5rem, 1.379rem + 0.518vw, 2rem);
+    font-family: var(--primary-font);
+    letter-spacing: 1px;
   }
 
   .text-404 {
@@ -52,7 +57,7 @@ const canonical = "https://streamfighters4.vercel.app/404/"
   }
 
   .visible-hidden {
-    color: var(--background-color);
+    color: transparent;
   }
 
   .gloves-image {
@@ -76,6 +81,6 @@ const canonical = "https://streamfighters4.vercel.app/404/"
   }
 
   .home-link:hover {
-    opacity: 0.6;
+    opacity: 0.8;
   }
 </style>
